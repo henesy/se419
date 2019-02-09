@@ -1,0 +1,6 @@
+cd $HOME
+javac HDFSWrite.java
+jar -cvf HDFSWrite.jar HDFSWrite.class
+hadoop jar HDFSWrite.jar
+hadoop dfs -cat lab1/newfile
+

@@ -28,7 +28,7 @@ public class Driver {
 	public static void main(String[] args) throws Exception {
 
 		// Change following paths accordingly
-		String input = "/cpre419/shakespeare"; 
+		String input = "/cpre419/gutenberg"; 
 		String temp = "/user/seh/lab2/exp2/temp";
 		String output = "/user/seh/lab2/exp2/output/"; 
 

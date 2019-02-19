@@ -186,7 +186,7 @@ public class Driver {
 	// method
 	// The value is IntWritable and also must match the datatype of the output
 	// value of the map method
-	public static class Reduce_One extends Reducer<Text, IntWritable, Text, IntWritable> {
+	public static class Reduce_One extends Reducer<Text, IntWritable, IntWritable, Text> {
 
 		// The reduce method
 		// For key, we have an Iterable over all values associated with this key
@@ -201,7 +201,7 @@ public class Driver {
 				// TODO -- do i need to do more?
 			}
 			
-			context.write(key, new IntWritable(sum));
+			context.write(new IntWritable(sum), key);
 		} 
 	}
 
@@ -209,8 +209,8 @@ public class Driver {
 	public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
 
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-
-			// TODO -- map
+			
+			context.write(new Text(""), value);
 
 		} 
 	} 
@@ -220,8 +220,10 @@ public class Driver {
 
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
-			// TODO -- reduce
-
+			for(Text val : values) {
+				// TODO -- ??
+			}
+			
 		} 
 	} 
 

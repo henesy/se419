@@ -153,7 +153,7 @@ public class Driver {
 			while(sentences.hasMoreTokens()) {
 				// For each sentence s in sentences
 				
-				String sent = sentences.nextToken();
+				String sent = sentences.nextToken().toLowerCase().replaceAll("[^a-z0-9\\s]", "");
 				
 				// Get words
 				StringTokenizer wordsT = new StringTokenizer(sent, " \n	");
@@ -164,8 +164,7 @@ public class Driver {
 				
 				// Move tokens to array, this makes it easier to iterate
 				for(int i = 0; i < size; i++) {
-					words[i] = wordsT.nextToken().replaceAll("[^a-z0-9]", "");
-					System.out.println(words[i]);
+					words[i] = wordsT.nextToken();
 				}
 				
 				// Iterate through all words, find a pair, b, then make bigrams

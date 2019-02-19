@@ -29,11 +29,11 @@ public class Driver {
 
 		// Change following paths accordingly
 		String input = "/cpre419/shakespeare"; 
-		String temp = "/user/seh/lab2/exp2/temp";
+		//String temp = "/user/seh/lab2/exp2/temp";
 		String output = "/user/seh/lab2/exp2/output/"; 
 
 		// The number of reduce tasks 
-		int reduce_tasks = 4; 
+		int reduce_tasks = 2; 
 		
 		Configuration conf = new Configuration();
 
@@ -53,7 +53,7 @@ public class Driver {
 		job_one.setMapOutputValueClass(IntWritable.class);
 
 		// The datatype of the reducer output Key, Value
-		job_one.setOutputKeyClass(IntWritable.class);
+		job_one.setOutputKeyClass(Text.class);
 		job_one.setOutputValueClass(Text.class);
 
 		// The class that provides the map method
@@ -81,7 +81,7 @@ public class Driver {
 		// The output HDFS path for this job
 		// The output path must be one and only one
 		// This must not be shared with other running jobs in the system
-		FileOutputFormat.setOutputPath(job_one, new Path(temp));
+		FileOutputFormat.setOutputPath(job_one, new Path(output));
 		
 		// This is not allowed
 		// FileOutputFormat.setOutputPath(job_one, new Path(another_output_path)); 
@@ -89,6 +89,7 @@ public class Driver {
 		// Run the job
 		job_one.waitForCompletion(true);
 
+		/*
 		// Create job for round 2
 		// The output of the previous job can be passed as the input to the next
 		// The steps are as in job 1
@@ -118,6 +119,7 @@ public class Driver {
 
 		// Run the job
 		job_two.waitForCompletion(true);
+		*/
 	}
 
 	
@@ -186,14 +188,14 @@ public class Driver {
 	// method
 	// The value is IntWritable and also must match the datatype of the output
 	// value of the map method
-	public static class Reduce_One extends Reducer<Text, IntWritable, IntWritable, Text> {
+	public static class Reduce_One extends Reducer<Text, IntWritable, Text, Text> {
 
 		// The reduce method
 		// For key, we have an Iterable over all values associated with this key
 		// The values come in a sorted fasion.
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 
-			int sum = 0;
+			Integer sum = 0;
 
 			// If we get say 'to be' and X '1's, we 
 			for (IntWritable val : values) {
@@ -201,32 +203,8 @@ public class Driver {
 				// TODO -- do i need to do more?
 			}
 			
-			context.write(new IntWritable(sum), key);
+			context.write(new Text(sum.toString()), key);
 		} 
 	}
-
-	// The second Map Class
-	public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
-
-		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-			
-			context.write(new Text(""), value);
-
-		} 
-	} 
-
-	// The second Reduce class
-	public static class Reduce_Two extends Reducer<Text, Text, Text, IntWritable> {
-
-		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-
-			for(Text val : values) {
-				// TODO -- ??
-			}
-			
-		} 
-	} 
-
-	// TODO -- more classes
 
 }

@@ -171,14 +171,20 @@ public class Driver {
 				}
 				
 				// Iterate through all words, find a pair, b, then make bigrams
-				for(String w : words) 
-					for(String b : words) {	
+				for(int i = 0; i < words.length; i++) {
+					String w = words[i];
+					for(int j = i+1; j < words.length; j++) {	
+						if(j >= words.length)
+								break;
+						
+						String b = words[j];
 						if(w.equals(b))
 							continue;
 						
 						out.set(w + " " + b);
 						context.write(out, one);
 					}
+				}
 			} // End while
 		} 
 	} 

@@ -144,6 +144,8 @@ public class Driver {
 			// The TextInputFormat splits the data line by line.
 			// So each map method receives one line from the input
 			String line = value.toString();
+			
+			line.toLowerCase();
 
 			// Tokenize to get the individual words
 			StringTokenizer sentences = new StringTokenizer(line, ".?!");
@@ -152,8 +154,6 @@ public class Driver {
 				// For each sentence s in sentences
 				
 				String sent = sentences.nextToken();
-				
-				sent.replaceAll("[^a-z0-9]", "");
 				
 				// Get words
 				StringTokenizer wordsT = new StringTokenizer(sent, " \n	");
@@ -164,7 +164,7 @@ public class Driver {
 				
 				// Move tokens to array, this makes it easier to iterate
 				for(int i = 0; i < size; i++)
-					words[i] = wordsT.nextToken();
+					words[i] = wordsT.nextToken().replaceAll("[^a-z0-9]", "");
 				
 				// Iterate through all words, find a pair, b, then make bigrams
 				for(String w : words) 

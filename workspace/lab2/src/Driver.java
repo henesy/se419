@@ -53,7 +53,7 @@ public class Driver {
 		job_one.setMapOutputValueClass(IntWritable.class);
 
 		// The datatype of the reducer output Key, Value
-		job_one.setOutputKeyClass(Text.class);
+		job_one.setOutputKeyClass(IntWritable.class);
 		job_one.setOutputValueClass(Text.class);
 
 		// The class that provides the map method
@@ -188,7 +188,7 @@ public class Driver {
 	// method
 	// The value is IntWritable and also must match the datatype of the output
 	// value of the map method
-	public static class Reduce_One extends Reducer<Text, IntWritable, Text, Text> {
+	public static class Reduce_One extends Reducer<Text, IntWritable, IntWritable, Text> {
 
 		// The reduce method
 		// For key, we have an Iterable over all values associated with this key
@@ -203,7 +203,7 @@ public class Driver {
 				// TODO -- do i need to do more?
 			}
 			
-			context.write(new Text(sum.toString()), key);
+			context.write(new IntWritable(sum), key);
 		} 
 	}
 

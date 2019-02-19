@@ -148,27 +148,32 @@ public class Driver {
 			// Tokenize to get the individual words
 			StringTokenizer sentences = new StringTokenizer(line, ".?!");
 
-			while (sentences.hasMoreTokens()) {
+			while(sentences.hasMoreTokens()) {
 				// For each sentence s in sentences
 				
 				String sent = sentences.nextToken();
 				
 				// Get words
-				String[] words = sent.split(" |	|\n");
+				StringTokenizer wordsT = new StringTokenizer(sent, " \n	");
 				
 				// Create all bigrams of words
+				int size = wordsT.countTokens();
+				String[] words = new String[size];
 				
+				// Move tokens to array, this makes it easier to iterate
+				for(int i = 0; i < size; i++)
+					words[i] = wordsT.nextToken();
 				
-				// Concatenate bigrams into output list
-				// out.append()? 
-				
-				
-
+				// Iterate through all words, find a pair, b, then make bigrams
+				for(String w : words) 
+					for(String b : words) {	
+						if(w.equals(b))
+							continue;
+						
+						out.set(w + " " + b);
+						context.write(out, one);
+					}
 			} // End while
-
-			// TODO -- write output in form: a b 1
-
-			// Use context.write to emit values
 		} 
 	} 
 
@@ -183,32 +188,17 @@ public class Driver {
 		// The reduce method
 		// For key, we have an Iterable over all values associated with this key
 		// The values come in a sorted fasion.
-		public void reduce(Text key, Iterable<IntWritable> values, Context context)
-				throws IOException, InterruptedException {
+		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 
+			int sum = 0;
+
+			// If we get say 'to be' and X '1's, we 
 			for (IntWritable val : values) {
-
-				int value = val.get();
-
-				/**
-				 * **************************************
-				 * ************************************** 
-				 * YOUR CODE HERE FOR THE REDUCE FUNCTION 
-				 * **************************************
-				 * **************************************
-				 */
+				sum += val.get();
+				// TODO -- do i need to do more?
 			}
-
-			/**
-			 * **************************************
-			 * ************************************** 
-			 * YOUR CODE HERE FOR THEREDUCE FUNCTION 
-			 * **************************************
-			 * **************************************
-			 */
-
-			// Use context.write to emit values
-
+			
+			context.write(key, new IntWritable(sum));
 		} 
 	}
 
@@ -217,13 +207,7 @@ public class Driver {
 
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-			/**
-			 * ***********************************
-			 * *********************************** 
-			 * FILL IN CODE FOR THE MAP FUNCTION 
-			 * ***********************************
-			 * ***********************************
-			 */
+			// TODO -- map
 
 		} 
 	} 
@@ -233,23 +217,11 @@ public class Driver {
 
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
-			/**
-			 * **************************************
-			 * ************************************** 
-			 * YOUR CODE HERE FOR THE REDUCE FUNCTION 
-			 * **************************************
-			 * **************************************
-			 */
+			// TODO -- reduce
 
 		} 
 	} 
 
-	/**
-	 * ******************************************************
-	 * ****************************************************** 
-	 * YOUR CODE HERE FOR MORE MAP / REDUCE CLASSES IF NEEDED
-	 * ******************************************************
-	 * ******************************************************
-	 */
+	// TODO -- more classes
 
 }

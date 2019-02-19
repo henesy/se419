@@ -217,7 +217,7 @@ public class Driver {
 				StringTokenizer st = new StringTokenizer(line);
 				
 				String v = "";
-				do {
+				while(st.hasMoreTokens()){
 					String part = st.nextToken().toLowerCase().replaceAll("[^a-z0-9\\s]", "");
 		
 					// The last element ( count ) is prepended
@@ -226,8 +226,7 @@ public class Driver {
 						break;
 					} else
 						v = v + " " + part;
-				
-				} while(st.hasMoreTokens());
+				} 
 				
 				context.write(new Text(), new Text(v));
 

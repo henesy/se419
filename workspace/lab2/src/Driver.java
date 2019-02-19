@@ -221,7 +221,7 @@ public class Driver {
 					String part = st.nextToken().toLowerCase().replaceAll("[^a-z0-9\\s]", "");
 		
 					// The last element ( count ) is prepended
-					if(st.hasMoreTokens()) {
+					if(!st.hasMoreTokens()) {
 						context.write(new Text(part), new Text(v));
 						break;
 					} else

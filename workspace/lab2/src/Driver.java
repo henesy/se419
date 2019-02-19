@@ -163,8 +163,10 @@ public class Driver {
 				String[] words = new String[size];
 				
 				// Move tokens to array, this makes it easier to iterate
-				for(int i = 0; i < size; i++)
+				for(int i = 0; i < size; i++) {
 					words[i] = wordsT.nextToken().replaceAll("[^a-z0-9]", "");
+					System.out.println(words[i]);
+				}
 				
 				// Iterate through all words, find a pair, b, then make bigrams
 				for(String w : words) 

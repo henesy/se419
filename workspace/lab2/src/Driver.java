@@ -29,11 +29,11 @@ public class Driver {
 
 		// Change following paths accordingly
 		String input = "/cpre419/shakespeare"; 
-		//String temp = "/user/seh/lab2/exp2/temp";
+		String temp = "/user/seh/lab2/exp2/temp";
 		String output = "/user/seh/lab2/exp2/output/"; 
 
 		// The number of reduce tasks 
-		int reduce_tasks = 2; 
+		int reduce_tasks = 4; 
 		
 		Configuration conf = new Configuration();
 
@@ -81,7 +81,7 @@ public class Driver {
 		// The output HDFS path for this job
 		// The output path must be one and only one
 		// This must not be shared with other running jobs in the system
-		FileOutputFormat.setOutputPath(job_one, new Path(output));
+		FileOutputFormat.setOutputPath(job_one, new Path(temp));
 		
 		// This is not allowed
 		// FileOutputFormat.setOutputPath(job_one, new Path(another_output_path)); 
@@ -89,7 +89,7 @@ public class Driver {
 		// Run the job
 		job_one.waitForCompletion(true);
 
-		/*
+		
 		// Create job for round 2
 		// The output of the previous job can be passed as the input to the next
 		// The steps are as in job 1
@@ -102,7 +102,7 @@ public class Driver {
 		job_two.setMapOutputKeyClass(Text.class);
 		job_two.setMapOutputValueClass(IntWritable.class);
 		job_two.setOutputKeyClass(Text.class);
-		job_two.setOutputValueClass(IntWritable.class);
+		job_two.setOutputValueClass(Text.class);
 
 		// If required the same Map / Reduce classes can also be used
 		// Will depend on logic if separate Map / Reduce classes are needed
@@ -119,7 +119,7 @@ public class Driver {
 
 		// Run the job
 		job_two.waitForCompletion(true);
-		*/
+		
 	}
 
 	
@@ -182,7 +182,6 @@ public class Driver {
 		} 
 	} 
 
-	
 	// The Reduce class
 	// The key is Text and must match the datatype of the output key of the map
 	// method
@@ -207,4 +206,28 @@ public class Driver {
 		} 
 	}
 
+	
+	// The second Map Class
+		public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
+
+			public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+				
+				context.write(new Text(), value);
+
+			} 
+		} 
+
+		// The second Reduce class
+		public static class Reduce_Two extends Reducer<Text, Text, Text, Text> {
+
+			public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+
+				for(Text val : values) {
+					// TODO -- ??
+				}
+				
+			} 
+		} 
+
+		// TODO -- more classes
 }

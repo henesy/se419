@@ -53,8 +53,8 @@ public class Driver {
 		job_one.setMapOutputValueClass(IntWritable.class);
 
 		// The datatype of the reducer output Key, Value
-		job_one.setOutputKeyClass(Text.class);
-		job_one.setOutputValueClass(IntWritable.class);
+		job_one.setOutputKeyClass(IntWritable.class);
+		job_one.setOutputValueClass(Text.class);
 
 		// The class that provides the map method
 		job_one.setMapperClass(Map_One.class);

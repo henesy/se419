@@ -153,6 +153,8 @@ public class Driver {
 				
 				String sent = sentences.nextToken();
 				
+				sent.replaceAll("[^a-z0-9]", "");
+				
 				// Get words
 				StringTokenizer wordsT = new StringTokenizer(sent, " \n	");
 				

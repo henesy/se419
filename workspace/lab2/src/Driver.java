@@ -100,7 +100,8 @@ public class Driver {
 
 		// Should be match with the output datatype of mapper and reducer
 		job_two.setMapOutputKeyClass(Text.class);
-		job_two.setMapOutputValueClass(IntWritable.class);
+		job_two.setMapOutputValueClass(Text.class);
+		
 		job_two.setOutputKeyClass(Text.class);
 		job_two.setOutputValueClass(Text.class);
 
@@ -223,7 +224,7 @@ public class Driver {
 			public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
 				for(Text val : values) {
-					// TODO -- ??
+					context.write(key, val);
 				}
 				
 			} 

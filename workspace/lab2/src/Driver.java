@@ -222,14 +222,12 @@ public class Driver {
 		
 					// The last element ( count ) is prepended
 					if(st.hasMoreTokens()) {
-						v = part +  " " + v;
+						context.write(new Text(part), new Text(v));
 						break;
 					} else
 						v = v + " " + part;
 				} 
 				
-				context.write(new Text(), new Text(v));
-
 			} 
 		} 
 
@@ -239,7 +237,7 @@ public class Driver {
 			public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
 				for(Text val : values) {
-					context.write(val, key);
+					context.write(key, val);
 				}
 				
 			} 

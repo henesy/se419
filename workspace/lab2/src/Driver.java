@@ -53,8 +53,8 @@ public class Driver {
 		job_one.setMapOutputValueClass(IntWritable.class);
 
 		// The datatype of the reducer output Key, Value
-		job_one.setOutputKeyClass(IntWritable.class);
-		job_one.setOutputValueClass(Text.class);
+		job_one.setOutputKeyClass(Text.class);
+		job_one.setOutputValueClass(IntWritable.class);
 
 		// The class that provides the map method
 		job_one.setMapperClass(Map_One.class);
@@ -188,7 +188,7 @@ public class Driver {
 	// method
 	// The value is IntWritable and also must match the datatype of the output
 	// value of the map method
-	public static class Reduce_One extends Reducer<Text, IntWritable, IntWritable, Text> {
+	public static class Reduce_One extends Reducer<Text, IntWritable, Text, IntWritable> {
 
 		// The reduce method
 		// For key, we have an Iterable over all values associated with this key
@@ -203,7 +203,7 @@ public class Driver {
 				// TODO -- do i need to do more?
 			}
 			
-			context.write(new IntWritable(sum), key);
+			context.write(key, new IntWritable(sum));
 		} 
 	}
 
@@ -212,8 +212,24 @@ public class Driver {
 		public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
 
 			public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+				String line = value.toString();
 				
-				context.write(new Text(), value);
+				StringTokenizer st = new StringTokenizer(line);
+				
+				String v = "";
+				do {
+					String part = st.nextToken().toLowerCase().replaceAll("[^a-z0-9\\s]", "");
+		
+					// The last element ( count ) is prepended
+					if(st.nextToken() == null) {
+						v = part +  " " + v;
+						break;
+					} else
+						v = v + " " + part;
+				
+				} while(st.hasMoreTokens());
+				
+				context.write(new Text(), new Text(v));
 
 			} 
 		} 
@@ -224,7 +240,7 @@ public class Driver {
 			public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
 				for(Text val : values) {
-					context.write(key, val);
+					context.write(val, key);
 				}
 				
 			} 

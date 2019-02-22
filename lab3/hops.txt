@@ -1,0 +1,13 @@
+One-hop (x->y):
+x y
+
+
+Two-hop (x->y):
+x y
+
+x z
+z y
+
+That is, anything is a two-hop if:
+
+x -> y.(single hops)

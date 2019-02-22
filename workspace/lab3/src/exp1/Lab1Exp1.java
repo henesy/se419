@@ -1,6 +1,6 @@
+package exp1;
 // Sean Hinchee
 // Lab1Exp1
-package exp1;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,6 +21,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+
 
 /* Strategy:
  * Map round 1 -> emit [src]dest
@@ -46,14 +47,15 @@ public class Lab1Exp1 {
 		 */
 		String input = "/cpre419/patents.txt"; 
 		String temp = "/user/seh/lab3/exp1/temp";
-		String output = "/user/seh/lab2/exp2/output/"; 
+		String output = "/user/seh/lab2/exp2/output"; 
 		
-		/* Round 1 */
-		// The number of reduce tasks 
+		// Limit cores to 10
 		int reduce_tasks = 10; 
 		
 		Configuration conf = new Configuration();
 
+		/* == Round 1 == */
+		
 		// Create job for round 1
 		Job job_one = Job.getInstance(conf, "Driver Program Round One");
 
@@ -85,6 +87,35 @@ public class Lab1Exp1 {
 
 		// Join to job
 		job_one.waitForCompletion(true);
+		
+		/* == Round two == */
+
+		Job job_two = Job.getInstance(conf, "Driver Program Round Two");
+		job_two.setJarByClass(Lab1Exp1.class);
+		job_two.setNumReduceTasks(reduce_tasks);
+
+		// Should be match with the output datatype of mapper and reducer
+		job_two.setMapOutputKeyClass(Text.class);
+		job_two.setMapOutputValueClass(Text.class);
+		
+		job_two.setOutputKeyClass(Text.class);
+		job_two.setOutputValueClass(Text.class);
+
+		// If required the same Map / Reduce classes can also be used
+		// Will depend on logic if separate Map / Reduce classes are needed
+		// Here we show separate ones
+		job_two.setMapperClass(Map_Two.class);
+		job_two.setReducerClass(Reduce_Two.class);
+
+		job_two.setInputFormatClass(TextInputFormat.class);
+		job_two.setOutputFormatClass(TextOutputFormat.class);
+		
+		// The output of previous job set as input of the next
+		FileInputFormat.addInputPath(job_two, new Path(temp));
+		FileOutputFormat.setOutputPath(job_two, new Path(output));
+
+		// Run the job
+		job_two.waitForCompletion(true);
 	}
 	
 	// First map round
@@ -134,6 +165,26 @@ public class Lab1Exp1 {
 		
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			
+		}
+	}
+	
+	/* == Round 2 == */
+	
+	// Second map round
+	public static class Map_Two extends Mapper<LongWritable, Text, IntWritable, Text> {
+		
+		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+			
+		}
+	}
+	
+	// Second reduce round
+	public static class Reduce_Two extends Reducer<IntWritable, Text, IntWritable, Text> {
+		
+		public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+			// Emit values in key,val order (sorted)
+			for(Text v : values)
+				context.write(key, v);
 		}
 	}
 

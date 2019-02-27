@@ -231,7 +231,7 @@ public class ExperimentOne {
 
 		private Text endKey = new Text("end");
 
-		public void map(LongWritable lineno, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+		public void map(LongWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
 			List<String> temp = new ArrayList<String>();
 			List<String> tmp = new ArrayList<String>();

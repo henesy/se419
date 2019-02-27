@@ -179,9 +179,7 @@ public class ExperimentOne {
 				}
 
 				context.write(new Text(tokens[0]), new Text(sb.toString()));
-			} else {
-				context.write(new Text("omg token is token!"), new Text(value.toString()));
-			}
+			} 
 		} 
 	} 
 
@@ -218,20 +216,18 @@ public class ExperimentOne {
 					}
 	
 					context.write(val, new Text(sb.toString()));
-				} else {
-					context.write(new Text("null value!"), new Text(key.toString() + " " + val.toString()));
-				}
+				} 
 			}
 
 		} 
 	}
 
 	// The second Map Class
-	public static class Map_Two extends Mapper<Text, Text, Text, Text> {
+	public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
 
 		private Text endKey = new Text("end");
 
-		public void map(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+		public void map(LongWritable lineno, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
 			List<String> temp = new ArrayList<String>();
 			List<String> tmp = new ArrayList<String>();
@@ -269,8 +265,6 @@ public class ExperimentOne {
 					}
 
 					context.write(v, new Text(sb.toString()));
-				} else {
-					context.write(new Text("Got a null!"), new Text(key.toString() + " " + v.toString()));
 				}
 			} 
 		} 

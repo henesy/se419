@@ -33,8 +33,8 @@ public class ExperimentOne {
 
 		// Change following paths accordingly
 		String input = "/cpre419/patents.txt"; 
-		String temp = "/user/nlosby/lab3/exp1/temp";
-		String output = "/user/nlosby/lab3/exp1/output/"; 
+		String temp = "/user/seh/lab3/exp1/temp";
+		String output = "/user/seh/lab3/exp1/output/"; 
 
 		// The number of reduce tasks 
 		int reduce_tasks = 10; 

@@ -161,7 +161,7 @@ public class ExperimentOne {
 			List<String> tmp = new ArrayList<String>();
 			tmp = graph.get(tokens[0]);
 
-			if (tokens[0] != tokens[1]){
+			if (!tokens[0].equals(tokens[1])){
 				if (tmp != null){
 					tmp.add(tokens[1]);
 					graph.put(tokens[0], tmp);
@@ -179,6 +179,8 @@ public class ExperimentOne {
 				}
 
 				context.write(new Text(tokens[0]), new Text(sb.toString()));
+			} else {
+				context.write(new Text("omg token is token!"), new Text(value.toString()));
 			}
 		} 
 	} 
@@ -216,6 +218,8 @@ public class ExperimentOne {
 					}
 	
 					context.write(val, new Text(sb.toString()));
+				} else {
+					context.write(new Text("null value!"), new Text(key.toString() + " " + val.toString()));
 				}
 			}
 
@@ -247,7 +251,7 @@ public class ExperimentOne {
 						for (String t : tmp){
 
 							// if key == key.ref.ref
-							if (v.toString() == t){
+							if (v.toString().equals(t)){
 
 								tmp.remove(tmp.indexOf(t));
 								graph.put(v.toString(), tmp);
@@ -266,6 +270,8 @@ public class ExperimentOne {
 
 					context.write(v, new Text(sb.toString()));
 				}
+			} else {
+				context.write(new Text("Got a null!"), new Text(key.toString() + " " + v.toString()));
 			}
 		} 
 	} 

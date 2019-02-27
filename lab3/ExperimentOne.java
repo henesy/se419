@@ -270,7 +270,7 @@ public class ExperimentOne {
 
 					context.write(v, new Text(sb.toString()));
 				} else {
-					context.write(new Text("Got a null!"), new Text(lineno.toString() + " " + v.toString()));
+					context.write(new Text("Got a null!"), new Text(v.toString()));
 				}
 			} 
 		} 

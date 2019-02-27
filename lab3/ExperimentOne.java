@@ -179,7 +179,9 @@ public class ExperimentOne {
 				}
 
 				context.write(new Text(tokens[0]), new Text(sb.toString()));
-			} 
+			} else {
+				context.write(new Text("omg token is token!"), new Text(value.toString()));
+			}
 		} 
 	} 
 
@@ -216,7 +218,9 @@ public class ExperimentOne {
 					}
 	
 					context.write(val, new Text(sb.toString()));
-				} 
+				} else {
+					context.write(new Text("null value!"), new Text(key.toString() + " " + val.toString()));
+				}
 			}
 
 		} 
@@ -265,6 +269,8 @@ public class ExperimentOne {
 					}
 
 					context.write(v, new Text(sb.toString()));
+				} else {
+					context.write(new Text("Got a null!"), new Text(key.toString() + " " + v.toString()));
 				}
 			} 
 		} 

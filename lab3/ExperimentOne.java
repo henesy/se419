@@ -269,10 +269,10 @@ public class ExperimentOne {
 					}
 
 					context.write(v, new Text(sb.toString()));
+				} else {
+					context.write(new Text("Got a null!"), new Text(key.toString() + " " + v.toString()));
 				}
-			} else {
-				context.write(new Text("Got a null!"), new Text(key.toString() + " " + v.toString()));
-			}
+			} 
 		} 
 	} 
 

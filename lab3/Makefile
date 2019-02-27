@@ -1,7 +1,7 @@
 TARG=ExperimentOne
 
 all:
-	javac *.java
+	javac -Xlint:unchecked *.java
 	jar -cvf $(TARG).jar *.class
 
 clean:

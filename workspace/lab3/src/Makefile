@@ -1,5 +1,5 @@
-TARG=Lab1Exp1
-PACKAGE=exp1
+TARG=Lab3Exp2
+PACKAGE=exp2
 
 all:
 	javac $(PACKAGE)/*.java
@@ -8,7 +8,7 @@ all:
 clean:
 	rm $(PACKAGE)/*.class
 	rm *.jar
-	hdfs dfs -rm -r /user/seh/lab3/exp1/output /user/seh/lab3/exp1/temp
+	hdfs dfs -rm -r /user/seh/lab3/exp2/output /user/seh/lab3/exp2/temp
 
 run:
 	hadoop jar $(TARG).jar $(PACKAGE).$(TARG)

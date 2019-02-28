@@ -172,7 +172,7 @@ public class ExperimentOne {
 				StringBuilder sb = new StringBuilder();
 				for (String s : tmp){
 					sb.append(s);
-					sb.append("\t");
+					sb.append(",");
 				}
 
 				context.write(new Text(tokens[0]), new Text(sb.toString()));
@@ -211,7 +211,7 @@ public class ExperimentOne {
 					StringBuilder sb = new StringBuilder();
 					for (String s : tmp){
 						sb.append(s);
-						sb.append("\t");
+						sb.append(",");
 					}
 	
 					context.write(val, new Text(sb.toString()));
@@ -226,15 +226,17 @@ public class ExperimentOne {
 	// The second Map Class
 	public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
 
-		public void map(LongWritable key, Text values, Context context) throws IOException, InterruptedException {
+		public void map(LongWritable key, Text line, Context context) throws IOException, InterruptedException {
 
 			List<String> temp = new ArrayList<String>();
 			List<String> tmp = new ArrayList<String>();
 
 			// prune two depth loops
-			/*
+						
+			String[] values = line.toString().split(",");
+			
 
-			for (Text v : values){
+			for (String v : values){
 
 				temp = graph.get(v.toString());
 
@@ -261,15 +263,14 @@ public class ExperimentOne {
 					StringBuilder sb = new StringBuilder();
 					for (String s : temp){
 						sb.append(s);
-						sb.append("\t");
+						sb.append(",");
 					}
 
-					context.write(v, new Text(sb.toString()));
+					context.write(new Text(v), new Text(sb.toString()));
 				} else {
 					context.write(new Text("Got a null!"), new Text(v.toString()));
 				}
 			} 
-				*/
 		} 
 	} 
 

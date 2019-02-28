@@ -203,15 +203,16 @@ public class Lab3Exp2 {
 						
 			// Get number of triplets -- magic uwu
 			int nlets = reals.stream().distinct().collect(Collectors.toList()).size();
-			int letcount = nCr(nlets, 3);
+			
 			int gcc = 0;
 			
 			// Calculate GCC
-			if(letcount > 0) {
+			if(nlets > 0) {
+				int letcount = nCr(nlets, 3);
 				gcc = (3*tricount) / letcount;
 				context.write(new Text("gcc"), new Text(Integer.toString(gcc)));
 			} else {
-				context.write(new Text(Integer.toString(nlets)), new Text(Integer.toString(gcc)));
+				context.write(new Text(reals.toString()), new Text(Integer.toString(gcc)));
 			}
 		}
 	}
@@ -223,15 +224,16 @@ public class Lab3Exp2 {
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
 			
-			String[] fields = line.toLowerCase().split("\\s+");
+			String[] fields = line.toLowerCase().split("\t");
 			
-			if(fields.length < 2)
+			if(fields.length < 2) {
 				context.write(new Text("nope"), new IntWritable(-1));
-			
-			// GCC	sum
-			int sum = Integer.parseInt(fields[1]);
-			
-			context.write(new Text("quack"), new IntWritable(sum));
+			} else {
+				// GCC	sum
+				int sum = Integer.parseInt(fields[1]);
+				
+				context.write(new Text("quack"), new IntWritable(sum));
+			}
 		} 
 	} 
 

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -104,11 +105,11 @@ public class Lab3Exp2 {
 
 		// Should be match with the output datatype of mapper and reducer
 		job_two.setMapOutputKeyClass(Text.class);
-		job_two.setMapOutputValueClass(IntWritable.class);
+		job_two.setMapOutputValueClass(DoubleWritable.class);
 
 		// Nic maybe flip
 		job_two.setOutputKeyClass(Text.class);
-		job_two.setOutputValueClass(IntWritable.class);
+		job_two.setOutputValueClass(Text.class);
 
 		// If required the same Map / Reduce classes can also be used
 		// Will depend on logic if separate Map / Reduce classes are needed
@@ -228,7 +229,7 @@ public class Lab3Exp2 {
 
 
 	// The second Map Class
-	public static class Map_Two extends Mapper<LongWritable, Text, Text, IntWritable> {
+	public static class Map_Two extends Mapper<LongWritable, Text, Text, DoubleWritable> {
 
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
@@ -236,29 +237,29 @@ public class Lab3Exp2 {
 			String[] fields = line.toLowerCase().split("\t");
 			
 			if(fields.length < 2) {
-				context.write(new Text("nope"), new IntWritable(-1));
+				context.write(new Text("nope"), new DoubleWritable(-1));
 			} else {
 				// GCC	sum
-				int sum = Integer.parseInt(fields[1]);
+				double sum = Integer.parseInt(fields[1]);
 				
-				context.write(new Text("quack"), new IntWritable(sum));
+				context.write(new Text("sum-gcc"), new DoubleWritable(sum));
 			}
 		} 
 	} 
 
 	// The second Reduce class
-	public static class Reduce_Two extends Reducer<Text, IntWritable, Text, Text> {
+	public static class Reduce_Two extends Reducer<Text, DoubleWritable, Text, Text> {
 
-		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-			int sum = 0;
+		public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
+			double sum = 0;
 
-			for(IntWritable v : values) {
+			for(DoubleWritable v : values) {
 
-				int val = Integer.parseInt(v.toString());
+				double val = Double.parseDouble(v.toString());
 				sum += val;
 			}
 
-			context.write(key, new Text(Integer.toString(sum)));
+			context.write(key, new Text(Double.toString(sum)));
 		} 
 	} 
 

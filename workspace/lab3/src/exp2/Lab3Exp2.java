@@ -207,7 +207,7 @@ public class Lab3Exp2 {
 			int gcc = 0;
 			
 			// Calculate GCC
-			if(nlets > 0) {
+			if(nlets >= 3) {
 				int letcount = nCr(nlets, 3);
 				if(letcount < 1) {
 					// We have no triplets

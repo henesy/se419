@@ -27,6 +27,18 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class Lab3Exp2 {
+	
+	static int nCr(int n, int r) { 
+	    return fact(n) / (fact(r) * fact(n - r)); 
+	} 
+	  
+	// Returns factorial of n 
+	static int fact(int n) { 
+	    int res = 1; 
+	    for (int i = 2; i <= n; i++) 
+	        res = res * i; 
+	    return res; 
+	} 
 
 	public static void main(String[] args) throws Exception {
 
@@ -139,18 +151,6 @@ public class Lab3Exp2 {
 	} 
 
 	public static class Reduce_One extends Reducer<Text, Text, Text, Text> {
-		
-		static int nCr(int n, int r) { 
-		    return fact(n) / (fact(r) * fact(n - r)); 
-		} 
-		  
-		// Returns factorial of n 
-		static int fact(int n) { 
-		    int res = 1; 
-		    for (int i = 2; i <= n; i++) 
-		        res = res * i; 
-		    return res; 
-		} 
 	    
 	    // Reduce round 1
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
@@ -200,23 +200,19 @@ public class Lab3Exp2 {
 				}
 			}
 			
-			// Build triplets from reals
-			String[] rawrxd = new String[reals.size()];
-			
-			for(int i = 0; i < reals.size(); i++) {
-				rawrxd[i] = reals.get(i);
-			}
-			
-			String[] tmp = new String[3];
-			
+						
 			// Get number of triplets -- magic uwu
 			int nlets = reals.stream().distinct().collect(Collectors.toList()).size();
 			int letcount = nCr(nlets, 3);
+			int gcc = 0;
 			
 			// Calculate GCC
-			int gcc = (3*tricount) / letcount;
-			
-			context.write(new Text("gcc"), new Text(Integer.toString(gcc)));
+			if(letcount > 0) {
+				gcc = (3*tricount) / letcount;
+				context.write(new Text("gcc"), new Text(Integer.toString(gcc)));
+			} else {
+				context.write(new Text(Integer.toString(nlets)), new Text(Integer.toString(gcc)));
+			}
 		}
 	}
 

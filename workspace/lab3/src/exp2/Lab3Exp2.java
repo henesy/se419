@@ -29,7 +29,10 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 public class Lab3Exp2 {
 	
 	static int nCr(int n, int r) { 
-	    return fact(n) / (fact(r) * fact(n - r)); 
+		int res = (fact(r) * fact(n - r));
+		if(res == 0)
+			return 0;
+	    return fact(n) / res; 
 	} 
 	  
 	// Returns factorial of n 

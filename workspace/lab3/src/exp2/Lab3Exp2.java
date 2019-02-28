@@ -1,5 +1,14 @@
 package exp2;
 
+// http://hpc-class.its.iastate.edu:8088/cluster
+// hadoop jar out.jar ExperimentOne -Dmapreduce.map.memory.mb=4096 -Dmapreduce.map.java.opts=-Xmx3686m
+/**
+Nic Losby
+Sean Hinchee
+  */
+
+
+
 import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.*;
@@ -19,11 +28,14 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class Lab3Exp2 {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+	private static Map<String, List<String>> graph = new HashMap<String, List<String>>();
+
+	public static void main(String[] args) throws Exception {
+
 		// Change following paths accordingly
 		String input = "/cpre419/patents.txt"; 
 		String temp = "/user/seh/lab3/exp2/temp";
-		String output = "/user/seh/lab3/exp2/output"; 
+		String output = "/user/seh/lab3/exp2/output/"; 
 
 		// The number of reduce tasks 
 		int reduce_tasks = 10; 
@@ -61,17 +73,17 @@ public class Lab3Exp2 {
 
 		job_one.setInputFormatClass(TextInputFormat.class);
 
+		// Decides the Output Format
 		job_one.setOutputFormatClass(TextOutputFormat.class);
 
 		FileInputFormat.addInputPath(job_one, new Path(input));
 		
 		FileOutputFormat.setOutputPath(job_one, new Path(temp));
 		
-		// This is not allowed
-		// FileOutputFormat.setOutputPath(job_one, new Path(another_output_path)); 
-
 		// Run the job
 		job_one.waitForCompletion(true);
+
+		/* == round 2 == */
 
 		Job job_two = Job.getInstance(conf, "Lab3 Program Round Two");
 		job_two.setJarByClass(Lab3Exp2.class);
@@ -85,6 +97,9 @@ public class Lab3Exp2 {
 		job_two.setOutputKeyClass(Text.class);
 		job_two.setOutputValueClass(IntWritable.class);
 
+		// If required the same Map / Reduce classes can also be used
+		// Will depend on logic if separate Map / Reduce classes are needed
+		// Here we show separate ones
 		job_two.setMapperClass(Map_Two.class);
 		job_two.setReducerClass(Reduce_Two.class);
 
@@ -99,14 +114,14 @@ public class Lab3Exp2 {
 		job_two.waitForCompletion(true);
 
 	}
+
+	/* == round 1 == */
 	
 	public static class Map_One extends Mapper<LongWritable, Text, Text, Text> {
 
 		// The map method
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-			// The TextInputFormat splits the data line by line.
-			// So each map method receives one line from the input
 			String line = value.toString();
 
 			String[] tokens = new String[2];
@@ -118,25 +133,60 @@ public class Lab3Exp2 {
 				// removed out one self refernce, woo
 
 				context.write(new Text(tokens[1]), new Text("!" + tokens[0]));
+				context.write(new Text(tokens[1]), new Text(tokens[0]));
 				context.write(new Text(tokens[0]), new Text(tokens[1]));
 
 			} 
 		} 
 	} 
 
-	
 	public static class Reduce_One extends Reducer<Text, Text, Text, Text> {
-
+		
+		private int letcount = 0;
+		
+		 /* arr[]  ---> Input Array 
+	    data[] ---> Temporary array to store current combination 
+	    start & end ---> Staring and Ending indexes in arr[] 
+	    index  ---> Current index in data[] 
+	    r ---> Size of a combination to be printed */
+	    private void combinationUtil(String arr[], String data[], int start, int end, int index, int r) 
+	    { 
+	        // Current combination is ready to be printed, print it 
+	        if (index == r) 
+	        { 
+	            for (int j=0; j<r; j++) 
+	                ; 
+	            letcount++;
+	            return; 
+	        } 
+	  
+	        // replace index with all possible elements. The condition 
+	        // "end-i+1 >= r-index" makes sure that including one element 
+	        // at index will make a combination with remaining elements 
+	        // at remaining positions 
+	        for (int i=start; i<=end && end-i+1 >= r-index; i++) 
+	        { 
+	            data[index] = arr[i]; 
+	            combinationUtil(arr, data, i+1, end, index+1, r); 
+	        } 
+	    } 
+	    
+	    // Reduce round 1
 		public void reduce(Text key, Iterable<Text> values, Context context)
 				throws IOException, InterruptedException {
 
-			// list one
+			// list not flags
 			ArrayList<String> reals = new ArrayList<String>();
-			// list two
+			
+			// list flags
 			ArrayList<String> flags = new ArrayList<String>();
+			
+			// list of triangle corners
+			ArrayList<String> trinodes = new ArrayList<String>();
 
-			int count = 0;
-
+			// Number of triangles
+			int tricount = 0;
+			
 			for (Text val : values){
 
 				String check = val.toString();
@@ -147,62 +197,78 @@ public class Lab3Exp2 {
 					reals.add(check);
 				}
 			}
-
-			// one hop counter
-			for (String f : flags){
-				for (String r : reals){
-					if (r.equals(f)){
-						// count++;
-						context.write(new Text(key), new Text("1"));
-
-						reals.remove(reals.indexOf(r));
+			
+			// Everything populated ^
+			
+			// Identify all potential triangle corners -- need 2 corners for a triangle
+			if(flags.size() > 1) {
+				for (String f : flags){
+					for (String r : reals){
+						if (r.equals(f)){
+							trinodes.add(r);
+						}
 					}
 				}
 			}
 
-			// two hop counter
-			// count += reals.size() * flags.size();
-			for(String r : reals) {
-				for(int i = 0; i < flags.size(); i++){
-					context.write(new Text(r), new Text("1"));
+			// Build triangles
+			for(String t0 : trinodes) {
+				for(String t1 : trinodes) {
+					if(!t0.equals(t1)) {
+						tricount++;
+					}
 				}
 			}
+			
+			// Build triplets from reals
+			String[] rawrxd = (String[]) reals.toArray();
+			String[] tmp = new String[3];
+			
+			// magic
+			combinationUtil(rawrxd, tmp, 0, rawrxd.length-1, 0, 3);
+			
+			// Calculate GCC
+			
+			int gcc = (3*tricount) / letcount;
+			
+			context.write(new Text("GCC"), new Text(Integer.toString(gcc)));
 
-			// count += reals.size();
-
-			// now find biggest 10, but soonTM
-			// context.write(new Text(key), new Text(Integer.toString(count)));
-		} 
+		}
 	}
 
 
 	// The second Map Class
-		public static class Map_Two extends Mapper<LongWritable, Text, Text, IntWritable> {
+	public static class Map_Two extends Mapper<LongWritable, Text, Text, IntWritable> {
 
-			public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-				String line = value.toString();
-				
-				String node = line.split("\t")[0];
-				int one = Integer.parseInt(line.split("\t")[1]);
-				
-				context.write(new Text(node), new IntWritable(one));
-			} 
+		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+			String line = value.toString();
+			
+			String[] fields = line.toLowerCase().split("\\s+");;;;;;;;;;;;
+			
+			if(fields.length < 2)
+				context.write(new Text("nope"), new IntWritable(-1));
+			
+			// GCC	sum
+			int sum = Integer.parseInt(fields[1]);
+			
+			context.write(new Text("quack"), new IntWritable(sum));
 		} 
+	} 
 
-		// The second Reduce class
-		public static class Reduce_Two extends Reducer<Text, IntWritable, Text, Text> {
+	// The second Reduce class
+	public static class Reduce_Two extends Reducer<Text, IntWritable, Text, Text> {
 
-			public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-				int sum = 0;
+		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+			int sum = 0;
 
-				for(IntWritable v : values) {
+			for(IntWritable v : values) {
 
-					int val = Integer.parseInt(v.toString());
-					sum += val;
-				}
+				int val = Integer.parseInt(v.toString());
+				sum += val;
+			}
 
-				context.write(key, new Text(Integer.toString(sum)));
-			} 
+			context.write(key, new Text(Integer.toString(sum)));
 		} 
+	} 
 
-}
+} // End RedoExp1.class

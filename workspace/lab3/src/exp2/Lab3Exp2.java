@@ -217,7 +217,12 @@ public class Lab3Exp2 {
 			}
 			
 			// Build triplets from reals
-			String[] rawrxd = (String[]) reals.toArray();
+			String[] rawrxd = new String[reals.size()];
+			
+			for(int i = 0; i < reals.size(); i++) {
+				rawrxd[i] = reals.get(i);
+			}
+			
 			String[] tmp = new String[3];
 			
 			// magic

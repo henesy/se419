@@ -217,7 +217,7 @@ public class ExperimentOne {
 	
 					context.write(key, new Text(sb.toString()));
 				} else {
-					context.write(new Text("null value!"), new Text(key.toString() + " " + val.toString()));
+					context.write(new Text(Boolean.toString(context.nextKey())), new Text(key.toString() + " " + val.toString()));
 				}
 			}
 

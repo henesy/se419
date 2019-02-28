@@ -11,6 +11,7 @@ Sean Hinchee
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -139,34 +140,17 @@ public class Lab3Exp2 {
 
 	public static class Reduce_One extends Reducer<Text, Text, Text, Text> {
 		
-		private int letcount = 0;
-		
-		 /* arr[]  ---> Input Array 
-	    data[] ---> Temporary array to store current combination 
-	    start & end ---> Staring and Ending indexes in arr[] 
-	    index  ---> Current index in data[] 
-	    r ---> Size of a combination to be printed */
-	    private void combinationUtil(String arr[], String data[], int start, int end, int index, int r) 
-	    { 
-	        // Current combination is ready to be printed, print it 
-	        if (index == r) 
-	        { 
-	            for (int j=0; j<r; j++) 
-	                ; 
-	            letcount++;
-	            return; 
-	        } 
-	  
-	        // replace index with all possible elements. The condition 
-	        // "end-i+1 >= r-index" makes sure that including one element 
-	        // at index will make a combination with remaining elements 
-	        // at remaining positions 
-	        for (int i=start; i<=end && end-i+1 >= r-index; i++) 
-	        { 
-	            data[index] = arr[i]; 
-	            combinationUtil(arr, data, i+1, end, index+1, r); 
-	        } 
-	    } 
+		static int nCr(int n, int r) { 
+		    return fact(n) / (fact(r) * fact(n - r)); 
+		} 
+		  
+		// Returns factorial of n 
+		static int fact(int n) { 
+		    int res = 1; 
+		    for (int i = 2; i <= n; i++) 
+		        res = res * i; 
+		    return res; 
+		} 
 	    
 	    // Reduce round 1
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
@@ -225,11 +209,11 @@ public class Lab3Exp2 {
 			
 			String[] tmp = new String[3];
 			
-			// magic
-			combinationUtil(rawrxd, tmp, 0, rawrxd.length-1, 0, 3);
+			// Get number of triplets -- magic uwu
+			int nlets = reals.stream().distinct().collect(Collectors.toList()).size();
+			int letcount = nCr(nlets, 3);
 			
 			// Calculate GCC
-			
 			int gcc = (3*tricount) / letcount;
 			
 			context.write(new Text("gcc"), new Text(Integer.toString(gcc)));

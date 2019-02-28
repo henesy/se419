@@ -176,9 +176,7 @@ public class ExperimentOne {
 				}
 
 				context.write(new Text(tokens[0]), new Text(sb.toString()));
-			} else {
-				context.write(new Text("omg token is token!"), new Text(value.toString()));
-			}
+			} 
 		} 
 	} 
 
@@ -196,17 +194,20 @@ public class ExperimentOne {
 		public void reduce(Text key, Iterable<Text> values, Context context)
 				throws IOException, InterruptedException {
 
+			String[] v = values.toString().split(",");
+			
 			for (Text val : values) {
 				List<String> tmp = new ArrayList<String>();
 
-				tmp = graph.get(val.toString());
+				tmp = graph.get(key.toString());
 
 				// remove duplicates
 				if (tmp != null){
+					// remove duplicates of refs
 					tmp = tmp.stream().distinct().collect(Collectors.toList());
 						
 	
-					graph.put(val.toString(), tmp);
+					graph.put(key.toString(), tmp);
 	
 					StringBuilder sb = new StringBuilder();
 					for (String s : tmp){
@@ -214,7 +215,7 @@ public class ExperimentOne {
 						sb.append(",");
 					}
 	
-					context.write(val, new Text(sb.toString()));
+					context.write(key, new Text(sb.toString()));
 				} else {
 					context.write(new Text("null value!"), new Text(key.toString() + " " + val.toString()));
 				}

@@ -10,7 +10,6 @@ Sean Hinchee
 
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 import java.util.*;
 
 import org.apache.hadoop.conf.Configuration;
@@ -28,14 +27,12 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class Lab3Exp2 {
 
-	private static Map<String, List<String>> graph = new HashMap<String, List<String>>();
-
 	public static void main(String[] args) throws Exception {
 
 		// Change following paths accordingly
 		String input = "/cpre419/patents.txt"; 
 		String temp = "/user/seh/lab3/exp2/temp";
-		String output = "/user/seh/lab3/exp2/output/"; 
+		String output = "/user/seh/lab3/exp2/output"; 
 
 		// The number of reduce tasks 
 		int reduce_tasks = 10; 
@@ -172,8 +169,7 @@ public class Lab3Exp2 {
 	    } 
 	    
 	    // Reduce round 1
-		public void reduce(Text key, Iterable<Text> values, Context context)
-				throws IOException, InterruptedException {
+		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
 			// list not flags
 			ArrayList<String> reals = new ArrayList<String>();
@@ -231,8 +227,7 @@ public class Lab3Exp2 {
 			
 			int gcc = (3*tricount) / letcount;
 			
-			context.write(new Text("GCC"), new Text(Integer.toString(gcc)));
-
+			context.write(new Text("gcc"), new Text(Integer.toString(gcc)));
 		}
 	}
 
@@ -243,7 +238,7 @@ public class Lab3Exp2 {
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
 			
-			String[] fields = line.toLowerCase().split("\\s+");;;;;;;;;;;;
+			String[] fields = line.toLowerCase().split("\\s+");
 			
 			if(fields.length < 2)
 				context.write(new Text("nope"), new IntWritable(-1));

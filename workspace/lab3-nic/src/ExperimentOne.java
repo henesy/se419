@@ -187,6 +187,8 @@ public class ExperimentOne {
 	// The value is IntWritable and also must match the datatype of the output
 	// value of the map method
 	public static class Reduce_One extends Reducer<Text, Text, Text, Text> {
+		
+		Integer n = 0;
 
 		// The reduce method
 		// For key, we have an Iterable over all values associated with this key
@@ -217,7 +219,7 @@ public class ExperimentOne {
 	
 					context.write(key, new Text(sb.toString()));
 				} else {
-					context.write(new Text(Boolean.toString(context.nextKey())), new Text(key.toString() + " " + val.toString()));
+					context.write(new Text(Boolean.toString(context.nextKey()) +  ++n), new Text(key.toString() + " " + val.toString()));
 				}
 			}
 

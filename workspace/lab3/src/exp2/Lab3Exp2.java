@@ -209,8 +209,14 @@ public class Lab3Exp2 {
 			// Calculate GCC
 			if(nlets > 0) {
 				int letcount = nCr(nlets, 3);
-				gcc = (3*tricount) / letcount;
-				context.write(new Text("gcc"), new Text(Integer.toString(gcc)));
+				if(letcount < 1) {
+					// We have no triplets
+					context.write(new Text("gcc"), new Text(Integer.toString(0)));
+				} else {
+					// We have >0 triplets
+					gcc = (3*tricount) / letcount;
+					context.write(new Text("gcc"), new Text(Integer.toString(gcc)));
+				}
 			} else {
 				context.write(new Text(reals.toString()), new Text(Integer.toString(gcc)));
 			}

@@ -226,12 +226,13 @@ public class ExperimentOne {
 	// The second Map Class
 	public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
 
-		public void map(LongWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+		public void map(LongWritable key, Text values, Context context) throws IOException, InterruptedException {
 
 			List<String> temp = new ArrayList<String>();
 			List<String> tmp = new ArrayList<String>();
 
 			// prune two depth loops
+			/*
 
 			for (Text v : values){
 
@@ -268,6 +269,7 @@ public class ExperimentOne {
 					context.write(new Text("Got a null!"), new Text(v.toString()));
 				}
 			} 
+				*/
 		} 
 	} 
 

@@ -71,7 +71,7 @@ public class Lab4Exp2 {
 	
 	static final String user = "seh";
 	static final String lab = "lab4";
-	static final String exp = "exp1";
+	static final String exp = "exp2";
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		String prefix = "/user/" + user + "/" + lab + "/" + exp;

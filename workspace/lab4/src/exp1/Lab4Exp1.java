@@ -25,7 +25,7 @@ JGeIQQ327GCZKqV EZ7TIlto3234Hfn4QmBOSk4isubPd1fgnIUA5fFE
 eQTA3gWaMTKdfxL rkFLaWtqz5D7HP09N9zyi6JjiyxYTFr4hksaYHtC
 tCquLsEZGeekjl7 HJ8OrSizMdVUL64XND6F827gv4Rl6D6WjoueCv7F
 
-Our output:
+Our output (Ran in 1m, 8s):
 
 [seh@hadoop000 src]$ hdfs dfs -cat /user/seh/lab4/exp1/temp/part-r-00009 | tail
 SLF4J: Class path contains multiple SLF4J bindings.
@@ -124,31 +124,6 @@ public class Lab4Exp1 {
 		// TOP for this job
 		job_one.setPartitionerClass(TotalOrderPartitioner.class);
 
-		/* == Round 2 == 
-
-		Job job_two = Job.getInstance(conf, "Lab4 Program Round Two");
-		job_two.setJarByClass(Lab4Exp1.class);
-		job_two.setNumReduceTasks(reduce_tasks);
-
-		// Should be match with the output data type of mapper and reducer
-		job_two.setMapOutputKeyClass(Text.class);
-		job_two.setMapOutputValueClass(DoubleWritable.class);
-
-		job_two.setOutputKeyClass(Text.class);
-		job_two.setOutputValueClass(Text.class);
-
-		job_two.setMapperClass(Map_Two.class);
-		job_two.setReducerClass(Reduce_Two.class);
-
-		job_two.setInputFormatClass(TextInputFormat.class);
-		job_two.setOutputFormatClass(TextOutputFormat.class);
-		
-		// The output of previous job set as input of the next
-		FileInputFormat.addInputPath(job_two, new Path(temp));
-		FileOutputFormat.setOutputPath(job_two, new Path(output));
-
-		job_two.waitForCompletion(true);
-		*/
 	}
 
 	/* == Round 1 == */
@@ -175,21 +150,4 @@ public class Lab4Exp1 {
 		}
 	}
 	
-	/* == Round 2 == */
-	
-	public static class Map_Two extends Mapper<LongWritable, Text, Text, DoubleWritable> {
-
-		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-			String line = value.toString();
-			
-		}
-	} 
-
-	// The second Reduce class
-	public static class Reduce_Two extends Reducer<Text, DoubleWritable, Text, Text> {
-
-		public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
-		
-		}
-	} 
 }

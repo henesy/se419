@@ -14,6 +14,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -50,7 +51,7 @@ public class Lab4Exp1 {
 		conf.set("mapreduce.reduce.memory.mb", "4096");
 		
 		// Configure TotalORderPartitioner -- TODO?
-		TotalOrderPartitioner.setPartitionFile(conf, new Path(totalout));
+		TotalOrderPartitioner.setPartitionFile(conf, new Path(output));
 
 		/* == Round 1 == */
 		
@@ -66,7 +67,7 @@ public class Lab4Exp1 {
 		job_one.setMapOutputValueClass(Text.class);
 
 		job_one.setOutputKeyClass(Text.class);
-		job_one.setOutputValueClass(Text.class);
+		job_one.setOutputValueClass(NullWritable.class);
 
 		job_one.setMapperClass(Map_One.class);
 		job_one.setReducerClass(Reduce_One.class);
@@ -116,13 +117,20 @@ public class Lab4Exp1 {
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
 
+			String[] fields = line.split("\\s+");
+			
+			Text ourKey = new Text(fields[0]);
+			
+			context.write(ourKey, value);
 		} 
 	} 
 
-	public static class Reduce_One extends Reducer<Text, Text, Text, Text> {
+	public static class Reduce_One extends Reducer<Text, Text, Text, NullWritable> {
 	    
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-			
+			for(Text v : values) {
+				context.write(v, NullWritable.get());
+			}
 		}
 	}
 	

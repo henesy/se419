@@ -151,7 +151,7 @@ public class Lab4Exp2 {
 		}
 		
 		// Converts a string like zzz into 747474
-		private static long str2val(String s) {
+		private static Long str2val(String s) {
 			long res = 0;
 			
 			byte[] k = s.getBytes();
@@ -177,24 +177,24 @@ public class Lab4Exp2 {
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
 			// BigInteger floo = str2bval("000000000000000");
-			long ceil = str2val("zzzzzzzzzzzzzzz");
-			long k = str2val(key.toString());
+			Long ceil = str2val("zzzzzzzzzzzzzzz");
+			Long k = str2val(key.toString());
 
 			// Value range of an individual partition segment
-			long seg = ceil / numPartitions;
+			Long seg = ceil / numPartitions;
 			
 			for(int i = 0; i < numPartitions; i++) {				
-				// Might overflow
-				long div = seg * (i + 1);
+				// Might overflow?
+				Long div = seg * (i + 1);
 				
-				if(k < div) {
+				if(k <= div) {
 					return i;
 				}
 			}
 			
 			
 			// Should never happen
-			return -1;
+			return Integer.parseInt(k.toString());
 		}
 	}
 	

@@ -65,6 +65,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.mapreduce.lib.partition.InputSampler;
 import org.apache.hadoop.mapreduce.lib.partition.TotalOrderPartitioner;
 
 public class Lab4Exp1 {
@@ -79,7 +80,7 @@ public class Lab4Exp1 {
 		String input = "/cpre419/input-50m"; 
 		// String temp = prefix + "/temp";
 		String output = prefix + "/output";
-		String totalout = prefix + "/total";
+		String parts = prefix + "/parts";
 
 		// The number of reduce tasks 
 		int reduce_tasks = 10;
@@ -118,7 +119,12 @@ public class Lab4Exp1 {
 		
 		// Configure TotalOrderPartitioner -- TODO?
 		job_one.setPartitionerClass(TotalOrderPartitioner.class);
-		TotalOrderPartitioner.setPartitionFile(job_one.getConfiguration(), new Path(totalout));
+		
+		InputSampler.Sampler<Text, Text> sampler = new InputSampler.IntervalSampler<Text, Text>(reduce_tasks);
+		InputSampler.writePartitionFile(job_one, sampler);
+		
+		TotalOrderPartitioner.setPartitionFile(job_one.getConfiguration(), new Path(parts));
+		
 		
 		job_one.waitForCompletion(true);
 		

@@ -17,6 +17,9 @@ Our output (Ran in 1m, 8s):
  */
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -105,11 +108,21 @@ public class Lab4Exp2 {
 		// TODO
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
+			if(numPartitions == 0)
+				return 0;
 
-
-			return 0;
+			MessageDigest md;
+			try {
+				// Try to sha-512 and mod the integer based on the number of necessary partitions
+				md = MessageDigest.getInstance("SHA-512");
+				byte[] messageDigest = md.digest(key.getBytes());
+				BigInteger no = new BigInteger(1, messageDigest);
+				return no.intValue() % numPartitions;
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+				return -1;
+			}
 		}
-		
 	}
 	
 	public static class Map_One extends Mapper<LongWritable, Text, Text, Text> {

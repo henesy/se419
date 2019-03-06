@@ -186,12 +186,14 @@ public class Lab4Exp2 {
 				// Might overflow?
 				Long div = seg * (i + 1);
 				
+				// If it's in our range, return our partition number
 				if(k <= div) {
 					return i;
 				}
 				
+				// If the value is outside the segment's ability to divide, toss it in last part
 				if(k >= seg * numPartitions)
-					return numPartitions;
+					return numPartitions-1;
 			}
 			
 			

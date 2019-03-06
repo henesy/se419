@@ -153,9 +153,8 @@ public class Lab4Exp2 {
 		// TODO
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
-			BigInteger floo = str2bval("000000000000000");
+			// BigInteger floo = str2bval("000000000000000");
 			BigInteger ceil = str2bval("zzzzzzzzzzzzzzz");
-			BigInteger diff = ceil.subtract(floo); 
 			BigInteger k = str2bval(key.toString());
 
 			String nps = "" + numPartitions;
@@ -165,7 +164,7 @@ public class Lab4Exp2 {
 				// BigInteger div = floo + (seg * (i + 1));
 				
 				String is = "" + (i + 1);
-				BigInteger div = floo.add(seg.multiply(new BigInteger(is)));
+				BigInteger div = seg.multiply(new BigInteger(is));
 				
 				if(k.compareTo(div) <= 0)
 					return i;

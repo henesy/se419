@@ -78,7 +78,7 @@ public class Lab4Exp2 {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		String prefix = "/user/" + user + "/" + lab + "/" + exp;
 
-		String input = "/cpre419/input-5k"; 
+		String input = "/cpre419/input-50m"; 
 		String temp = prefix + "/temp";
 		String output = prefix + "/output";
 		String totalout = prefix + "/total";

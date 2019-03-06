@@ -77,7 +77,7 @@ public class Lab4Exp1 {
 		String prefix = "/user/" + user + "/" + lab + "/" + exp;
 
 		String input = "/cpre419/input-50m"; 
-		// String temp = prefix + "/temp";
+		String temp = prefix + "/temp";
 		String output = prefix + "/output";
 		// String totalout = prefix + "/total";
 
@@ -92,7 +92,7 @@ public class Lab4Exp1 {
 		conf.set("mapreduce.reduce.memory.mb", "4096");
 		
 		// Configure TotalORderPartitioner -- TODO?
-		// TotalOrderPartitioner.setPartitionFile(conf, new Path(output));
+		TotalOrderPartitioner.setPartitionFile(conf, new Path(temp));
 
 		/* == Round 1 == */
 		

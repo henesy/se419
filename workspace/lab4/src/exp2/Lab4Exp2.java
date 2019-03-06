@@ -163,7 +163,7 @@ public class Lab4Exp2 {
 
 			int i = 0;
 			for (i = 0; i < numPartitions - 1; i++) {
-				if (floo + (diff * i) <= k && k <= floo + (diff * (i + 1))) {
+				if (floo + ((diff / numPartitions) * i) <= k && k <= floo + ((diff / numPartitions) * (i + 1))) {
 					return i;
 				}
 			}

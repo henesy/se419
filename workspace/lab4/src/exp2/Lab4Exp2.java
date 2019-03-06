@@ -161,12 +161,23 @@ public class Lab4Exp2 {
 			if(numPartitions == 0)
 				return 0;
 
+			Integer seg = diff / numPartitions;
+
+			for(int i = 0; i < numPartitions; i++) {
+				Integer div = floo + seg * i;
+				
+				if(k <= div)
+					return i;
+			}
+			
+			/*
 			int i = 0;
 			for (i = 0; i < numPartitions - 1; i++) {
 				if (floo + ((diff / numPartitions) * i) <= k && k <= floo + ((diff / numPartitions) * (i + 1))) {
 					return i;
 				}
 			}
+			*/
 			
 			// Should never happen
 			return -1;

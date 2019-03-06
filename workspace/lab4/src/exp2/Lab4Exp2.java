@@ -138,57 +138,45 @@ public class Lab4Exp2 {
 	 */
 	public static class MyPartitioner extends Partitioner<Text, Text> {
 
-		// Converts a string into a byte value
-		private static BigInteger str2bval(String s) {
-			String res = "";
+		// "zzzzzzzzzzzzzzz" -> 74^15
+		private static BigInteger parse75(String s) {
+			BigInteger res = new BigInteger("0");
 			
-			byte[] k = s.getBytes();
-
-			for(Byte b : k)
-				res += b.intValue() - '0';
-			
-			return new BigInteger(res);
-		}
-		
-		// Converts a string like zzz into 747474
-		private static Long str2val(String s) {
-			long last = 0;
-			long res = 0;
-			
-			byte[] k = s.getBytes();
-			
-			for(Byte b : k) {
-				int v = b.intValue() - '0';
-				
-				if(Long.MAX_VALUE - v <= res)
-					break;
-				/*
-				 * Shift res to the left the amount necessary to concatenate in v
-				 * res = 74; v = 120
-				 * res = 74120
-				 */
-								
-				
-				
-				// Stop before we overflow
-				try {
-					long mult = (long) Math.pow(10, ("" + v).length());
-					Math.multiplyExact(res, mult);
-					Math.addExact(res, v);
-				} catch(ArithmeticException e) {
-					return last;
-				}
-				
-				last = res;
+			for(Byte b : s.getBytes()) {
+				res = res.multiply(new BigInteger("75"));
+				res = res.add(new BigInteger("" + (b.intValue() - '0')));
 			}
-
+			
 			return res;
 		}
 		
 		// Partition into 10 segments a given set of data ;; that is, route keys into a 10-slot set
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
-			return (key.hashCode() & Integer.MAX_VALUE) % numPartitions;
+			// "zzzzzzzzzzzzzzz"
+			// 15 numbers, base 74
+			// max = 74^15
+			
+			BigInteger max = parse75("zzzzzzzzzzzzzzz");
+			BigInteger k = parse75(key.toString());
+			BigInteger seg = max.divide(new BigInteger("" + numPartitions));
+			
+			
+			for(int i = 0; i < numPartitions; i++) {
+				BigInteger div = seg.multiply(new BigInteger("" + (i + 1)));
+				
+				if(k.compareTo(div) <= 0) {
+					return i;
+				}
+				
+				// Check if not in our bounds
+				if(k.compareTo(seg.multiply(new BigInteger("" + numPartitions))) > 0) {
+					return numPartitions-1;
+				}
+			}
+			
+			// Should never happen
+			return -1;
 		}
 	}
 	

@@ -25,7 +25,7 @@ JGeIQQ327GCZKqV EZ7TIlto3234Hfn4QmBOSk4isubPd1fgnIUA5fFE
 eQTA3gWaMTKdfxL rkFLaWtqz5D7HP09N9zyi6JjiyxYTFr4hksaYHtC
 tCquLsEZGeekjl7 HJ8OrSizMdVUL64XND6F827gv4Rl6D6WjoueCv7F
 
-Our output (Ran in 1m, 8s):
+Our output (Ran in 1mins, 32sec):
 
 [seh@hadoop000 src]$ hdfs dfs -cat /user/seh/lab4/exp2/temp/part-r-00009 | tail
 SLF4J: Class path contains multiple SLF4J bindings.
@@ -33,16 +33,17 @@ SLF4J: Found binding in [jar:file:/opt/hadoop/hadoop/share/hadoop/common/lib/slf
 SLF4J: Found binding in [jar:file:/opt/hadoop/tez/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
 SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
-zzzELTQ3vylDUmR a8fHoXzae5M3QGyaiujjdsMC45faVUrq1oA9ktOe
-zzzMC6e3LaIXxOS L5MOLs3yF52Zx5P78yKJBHzBBrACx6Fkj1ek2TZj
-zzzRhNL67R3TOpk e3hBNt9My9artGWV2HcXE26eoWEeayY9I1tpkC5Z
-zzzT2AxjUKKo5uY rJPMt3SY0yyPLknsjt79FUFWS9fjHqafU6AsvO2r
-zzziapoVW6xoE4h 6QZpMCxhezizO18JNf4A7H1aBpm3QZ8UrqBNUKC9
-zzzjmbBqj0zjyTS 1vkoRF2XJAxseaWvhxTPj5hY4NcsT7sAAgE45gIC
-zzzoGlnWjyVM4PK sK1nOKL1cIgeA2SPNJdfRmPSbuuBW0ToCpGJvsxA
-zzzpG2TH8f4OOG8 NIYN0i0X3SLsjEeDoGN7WbXmpDk9uQcZHnK6CZIj
-zzzrS7l9I3x7JTT ZNHg28osyR8UALOEk1l6EBTxdAO19CUoxfMfDQnF
+zzzvIQoAEjnuOrk Vjr3mpJIut5PtoP5Q9m5sZxDhztO5mqotdT5DnuA
+zzzvYek8qI9OZs2 vQevgvyHUmd0XdEQPrRP2k6Sdf0acMflxjMJuCRK
+zzzxJkOpV02fpYV R2RvD9V8Wj59jp2pEquT7pCniVUJ2tfEprRuf6CK
+zzzxtBJpvKAyeAj ajFZy4Gab6uPbbNME4EOc6NfYM1DLJC4jfuqGPsR
+zzzy8SA6bUgHCML 0DyjlV3Qr8h7vbESRn0ffNr5PIDzdXPzk4jB47f9
+zzzyEq5IcqyinSK 1aR2VRYqS1hjYMvILLcS2pcCQRA4HW4Minhn62IV
+zzzyIkOstrV5QIe D6YfjF9TtEa7NRz9y64nPVrcKUz1U7kCAxpHbBKL
+zzzyRClBhs5chdA vzyuXIye2ktexkgXnQXmySAXHoieXF0jPKUdWSTU
+zzzyvJ5FMgenBGa WVq6ZMqITXWmLthY5tJ83oq5VxoHXJjngevrZL4U
 zzzzJXxBguTEdpM eWMIDSpNlWHUWXuttlFkbCV84pRprMucRjpmyyQ7
+[seh@hadoop000 src]$
 
 
  */

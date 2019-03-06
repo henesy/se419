@@ -145,7 +145,7 @@ public class Lab4Exp2 {
 			byte[] k = s.getBytes();
 
 			for(Byte b : k)
-				res += b.intValue();
+				res += b.intValue() - '0';
 			
 			return new BigInteger(res);
 		}

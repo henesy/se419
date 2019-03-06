@@ -139,7 +139,7 @@ public class Lab4Exp2 {
 	public static class MyPartitioner extends Partitioner<Text, Text> {
 
 		// Converts a string into a byte value
-		private static Integer str2bval(String s) {
+		private static BigInteger str2bval(String s) {
 			String res = "";
 			
 			byte[] k = s.getBytes();
@@ -147,26 +147,30 @@ public class Lab4Exp2 {
 			for(Byte b : k)
 				res += b.intValue();
 			
-			return (new BigInteger(res)).intValue();
+			return new BigInteger(res);
 		}
 		
 		// TODO
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
-			Integer floo = str2bval("000000000000000");
-		    Integer ceil = str2bval("zzzzzzzzzzzzzzz");
-			Integer diff = ceil - floo; 
-		    Integer k = str2bval(key.toString());
+			BigInteger floo = str2bval("000000000000000");
+			BigInteger ceil = str2bval("zzzzzzzzzzzzzzz");
+			BigInteger diff = ceil.subtract(floo); 
+			BigInteger k = str2bval(key.toString());
 			
 			if(numPartitions == 0)
 				return 0;
 
-			Integer seg = diff / numPartitions;
+			String nps = "" + numPartitions;
+			BigInteger seg = diff.subtract(new BigInteger(nps)) ;
 
 			for(int i = 0; i < numPartitions; i++) {
-				Integer div = floo + (seg * (i + 1));
+				// BigInteger div = floo + (seg * (i + 1));
 				
-				if(k <= div)
+				String is = "" + (i + 1);
+				BigInteger div = floo.add(seg.multiply(new BigInteger(is)));
+				
+				if(k.compareTo(div) <= 0)
 					return i;
 			}
 			
@@ -180,7 +184,7 @@ public class Lab4Exp2 {
 			*/
 			
 			// Should never happen
-			return k;
+			return k.intValue();
 		}
 	}
 	

@@ -162,7 +162,7 @@ public class Lab4Exp2 {
 				return 0;
 
 			String nps = "" + numPartitions;
-			BigInteger seg = diff.subtract(new BigInteger(nps)) ;
+			BigInteger seg = diff.divide(new BigInteger(nps)) ;
 
 			for(int i = 0; i < numPartitions; i++) {
 				// BigInteger div = floo + (seg * (i + 1));

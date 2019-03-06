@@ -119,10 +119,11 @@ public class Lab4Exp1 {
 		FileInputFormat.addInputPath(job_one, new Path(input));
 		FileOutputFormat.setOutputPath(job_one, new Path(temp));
 		
+		job_one.setPartitionerClass(TotalOrderPartitioner.class);
+		
 		job_one.waitForCompletion(true);
 		
 		// TOP for this job
-		job_one.setPartitionerClass(TotalOrderPartitioner.class);
 
 	}
 

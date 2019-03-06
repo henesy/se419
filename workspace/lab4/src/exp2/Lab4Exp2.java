@@ -150,23 +150,44 @@ public class Lab4Exp2 {
 			return new BigInteger(res);
 		}
 		
-		// TODO
+		// Converts a string like zzz into 747474
+		private static long str2val(String s) {
+			long res = 0;
+			
+			byte[] k = s.getBytes();
+			
+			for(Byte b : k) {
+				int v = b.intValue() - '0';
+				
+				if(Long.MAX_VALUE - v <= res)
+					break;
+				/*
+				 * Shift res to the left the amount necessary to concatenate in v
+				 * res = 74; v = 120
+				 * res = 74120
+				 */
+				res *= Math.pow(10, ("" + v).length());
+				res += v;
+			}
+
+			return res;
+		}
+		
+		// Partition into 10 segments a given set of data ;; that is, route keys into a 10-slot set
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
 			// BigInteger floo = str2bval("000000000000000");
-			BigInteger ceil = str2bval("zzzzzzzzzzzzzzz");
-			BigInteger k = str2bval(key.toString());
+			long ceil = str2val("zzzzzzzzzzzzzzz");
+			long k = str2val(key.toString());
 
-			BigInteger parts = new BigInteger("" + numPartitions);
-			BigInteger seg = ceil.divide(parts) ;
+			// Value range of an individual partition segment
+			long seg = ceil / numPartitions;
 			
-			for(int i = 0; i < numPartitions; i++) {
-				// BigInteger div = floo + (seg * (i + 1));
+			for(int i = 0; i < numPartitions; i++) {				
+				// Might overflow
+				long div = seg * (i + 1);
 				
-				BigInteger bigi = new BigInteger("" + (i + 1));
-				BigInteger div = seg.multiply(bigi);
-				
-				if(k.compareTo(div) < 0) {
+				if(k < div) {
 					return i;
 				}
 			}

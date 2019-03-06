@@ -80,9 +80,9 @@ public class Lab4Exp2 {
 		String prefix = "/user/" + user + "/" + lab + "/" + exp;
 
 		String input = "/cpre419/input-50m"; 
-		String temp = prefix + "/temp";
+		// String temp = prefix + "/temp";
 		String output = prefix + "/output";
-		String totalout = prefix + "/total";
+		// String totalout = prefix + "/total";
 
 		// The number of reduce tasks 
 		int reduce_tasks = 10;
@@ -120,10 +120,9 @@ public class Lab4Exp2 {
 		job_one.setOutputFormatClass(TextOutputFormat.class);
 
 		FileInputFormat.addInputPath(job_one, new Path(input));
-		FileOutputFormat.setOutputPath(job_one, new Path(temp));
+		FileOutputFormat.setOutputPath(job_one, new Path(output));
 		
 		job_one.setPartitionerClass(MyPartitioner.class);
-
 		
 		job_one.waitForCompletion(true);
 		

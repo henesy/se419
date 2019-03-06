@@ -176,7 +176,6 @@ public class Lab4Exp2 {
 		// Partition into 10 segments a given set of data ;; that is, route keys into a 10-slot set
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
-			// BigInteger floo = str2bval("000000000000000");
 			Long ceil = str2val("zzzzzzzzzzzzzzz");
 			Long k = str2val(key.toString());
 
@@ -190,11 +189,14 @@ public class Lab4Exp2 {
 				if(k <= div) {
 					return i;
 				}
+				
+				if(k >= seg * numPartitions)
+					return numPartitions;
 			}
 			
 			
 			// Should never happen
-			return Integer.parseInt(k.toString());
+			return -1;
 		}
 	}
 	

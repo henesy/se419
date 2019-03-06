@@ -166,13 +166,15 @@ public class Lab4Exp2 {
 				String is = "" + (i + 1);
 				BigInteger div = seg.multiply(new BigInteger(is));
 				
-				if(k.compareTo(div) <= 0)
-					return i;
+				if(k.compareTo(div) <= 0) {
+					return ceil.intValue();
+					// return i;
+				}
 			}
 			
 			
 			// Should never happen
-			return k.intValue();
+			return -1;
 		}
 	}
 	

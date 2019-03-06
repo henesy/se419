@@ -138,27 +138,35 @@ public class Lab4Exp2 {
 	 */
 	public static class MyPartitioner extends Partitioner<Text, Text> {
 
+		// Converts a string into a byte value
+		private static Integer str2bval(String s) {
+			String res;
+			
+			byte[] k = s.getBytes();
+
+			for(Byte b : k)
+				res += b.intValue();
+			
+			return Integer.parseInt(res);
+		}
+		
 		// TODO
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
+			Integer floo = str2bval("000000000000000");
+		    Integer ceil = str2bval("zzzzzzzzzzzzzzz");
+			Integer diff = ceil - floo; 
+		    Integer k = str2bval(key.toString());
+			
 			if(numPartitions == 0)
 				return 0;
 
-			MessageDigest md;
-			try {
-				// Try to sha-512 and mod the integer based on the number of necessary partitions
-				md = MessageDigest.getInstance("SHA-512");
-				byte[] messageDigest = md.digest(key.getBytes());
-				BigInteger no = new BigInteger(1, messageDigest);
-				
-				String num = Integer.toString(numPartitions);
-				
-				return no.mod(new BigInteger(num)).abs().intValueExact();
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-				return -1;
+			int i = 0;
+			for (i = 0; i < numPartitions - 1; i++) {
+				if (floo + (diff * i) <= k && k <= floo + (diff * (i + 1))) {
+					return i;
+				}
 			}
-		}
 	}
 	
 	public static class Map_One extends Mapper<LongWritable, Text, Text, Text> {

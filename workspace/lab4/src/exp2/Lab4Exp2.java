@@ -159,11 +159,8 @@ public class Lab4Exp2 {
 			BigInteger k = str2bval(key.toString());
 
 			String nps = "" + numPartitions;
-			BigInteger seg = diff.divide(new BigInteger(nps)) ;
+			BigInteger seg = ceil.divide(new BigInteger(nps)) ;
 			
-			return diff.intValue();
-
-			/*
 			for(int i = 0; i < numPartitions; i++) {
 				// BigInteger div = floo + (seg * (i + 1));
 				
@@ -176,7 +173,7 @@ public class Lab4Exp2 {
 			
 			
 			// Should never happen
-			return k.intValue();*/
+			return k.intValue();
 		}
 	}
 	

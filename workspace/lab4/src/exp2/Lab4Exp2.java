@@ -157,13 +157,13 @@ public class Lab4Exp2 {
 			BigInteger ceil = str2bval("zzzzzzzzzzzzzzz");
 			BigInteger diff = ceil.subtract(floo); 
 			BigInteger k = str2bval(key.toString());
-			
-			if(numPartitions == 0)
-				return 0;
 
 			String nps = "" + numPartitions;
 			BigInteger seg = diff.divide(new BigInteger(nps)) ;
+			
+			return seg.intValue();
 
+			/*
 			for(int i = 0; i < numPartitions; i++) {
 				// BigInteger div = floo + (seg * (i + 1));
 				
@@ -174,17 +174,9 @@ public class Lab4Exp2 {
 					return i;
 			}
 			
-			/*
-			int i = 0;
-			for (i = 0; i < numPartitions - 1; i++) {
-				if (floo + ((diff / numPartitions) * i) <= k && k <= floo + ((diff / numPartitions) * (i + 1))) {
-					return i;
-				}
-			}
-			*/
 			
 			// Should never happen
-			return k.intValue();
+			return k.intValue();*/
 		}
 	}
 	

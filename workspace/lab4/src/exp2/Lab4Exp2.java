@@ -150,7 +150,7 @@ public class Lab4Exp2 {
 				md = MessageDigest.getInstance("SHA-512");
 				byte[] messageDigest = md.digest(key.getBytes());
 				BigInteger no = new BigInteger(1, messageDigest);
-				return Math.abs((no.intValue() % numPartitions));
+				return Math.abs((no.intValue() % numPartitions)) + 1;
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 				return -1;

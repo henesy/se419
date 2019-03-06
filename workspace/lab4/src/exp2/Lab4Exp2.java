@@ -188,7 +188,7 @@ public class Lab4Exp2 {
 		// Partition into 10 segments a given set of data ;; that is, route keys into a 10-slot set
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
-			return key.hashCode() & Integer.MAX_VALUE % numPartitions;
+			return (key.hashCode() & Integer.MAX_VALUE) % numPartitions;
 		}
 	}
 	

@@ -164,7 +164,7 @@ public class Lab4Exp2 {
 			Integer seg = diff / numPartitions;
 
 			for(int i = 0; i < numPartitions; i++) {
-				Integer div = floo + seg * (i + 1);
+				Integer div = floo + (seg * (i + 1));
 				
 				if(k <= div)
 					return i;
@@ -180,7 +180,7 @@ public class Lab4Exp2 {
 			*/
 			
 			// Should never happen
-			return -1;
+			return k;
 		}
 	}
 	

@@ -188,29 +188,7 @@ public class Lab4Exp2 {
 		// Partition into 10 segments a given set of data ;; that is, route keys into a 10-slot set
 		@Override
 		public int getPartition(Text key, Text value, int numPartitions) {
-			Long ceil = str2val("zzzzzzzzzzzzzzz");
-			Long k = str2val(key.toString());
-
-			// Value range of an individual partition segment
-			Long seg = ceil / numPartitions;
-			
-			for(int i = 0; i < numPartitions; i++) {				
-				// Might overflow?
-				Long div = seg * (i + 1);
-				
-				// If it's in our range, return our partition number
-				if(k <= div) {
-					return i;
-				}
-				
-				// If the value is outside the segment's ability to divide, toss it in last part
-				if(k >= seg * numPartitions)
-					return numPartitions-1;
-			}
-			
-			
-			// Should never happen
-			return -1;
+			return key.hashCode() & Integer.MAX_VALUE % numPartitions;
 		}
 	}
 	

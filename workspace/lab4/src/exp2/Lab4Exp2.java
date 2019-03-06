@@ -152,13 +152,10 @@ public class Lab4Exp2 {
 		
 		// Converts a string like zzz into 747474
 		private static Long str2val(String s) {
-			// Squeeze the number into the value range of a long -- risky bisky?
-			String str = (str2bval(s).mod(new BigInteger(Long.toString(Long.MAX_VALUE)))).toString();
-			
-			
+			long last = 0;
 			long res = 0;
 			
-			byte[] k = str.getBytes();
+			byte[] k = s.getBytes();
 			
 			for(Byte b : k) {
 				int v = b.intValue() - '0';
@@ -170,8 +167,19 @@ public class Lab4Exp2 {
 				 * res = 74; v = 120
 				 * res = 74120
 				 */
-				res *= Math.pow(10, ("" + v).length());
-				res += v;
+								
+				
+				
+				// Stop before we overflow
+				try {
+					long mult = (long) Math.pow(10, ("" + v).length());
+					Math.multiplyExact(res, mult);
+					Math.addExact(res, v);
+				} catch(ArithmeticException e) {
+					return last;
+				}
+				
+				last = res;
 			}
 
 			return res;

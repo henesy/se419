@@ -90,9 +90,6 @@ public class Lab4Exp1 {
 		conf.set("mapred.child.java.opts", "-Xms3686m -Xmx2g -XX:+UseSerialGC");
 		conf.set("mapreduce.map.memory.mb", "4096");
 		conf.set("mapreduce.reduce.memory.mb", "4096");
-		
-		// Configure TotalORderPartitioner -- TODO?
-		TotalOrderPartitioner.setPartitionFile(conf, new Path(temp));
 
 		/* == Round 1 == */
 		
@@ -118,6 +115,9 @@ public class Lab4Exp1 {
 
 		FileInputFormat.addInputPath(job_one, new Path(input));
 		FileOutputFormat.setOutputPath(job_one, new Path(output));
+		
+		// Configure TotalORderPartitioner -- TODO?
+		TotalOrderPartitioner.setPartitionFile(job_one.getConfiguration(), new Path(output));
 		
 		job_one.setPartitionerClass(TotalOrderPartitioner.class);
 		

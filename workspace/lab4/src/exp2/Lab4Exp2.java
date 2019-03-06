@@ -153,7 +153,7 @@ public class Lab4Exp2 {
 		// Converts a string like zzz into 747474
 		private static Long str2val(String s) {
 			// Squeeze the number into the value range of a long -- risky bisky?
-			String str = (new BigInteger(s).mod(new BigInteger(Long.toString(Long.MAX_VALUE)))).toString();
+			String str = (str2bval(s).mod(new BigInteger(Long.toString(Long.MAX_VALUE)))).toString();
 			
 			
 			long res = 0;

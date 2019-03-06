@@ -157,18 +157,17 @@ public class Lab4Exp2 {
 			BigInteger ceil = str2bval("zzzzzzzzzzzzzzz");
 			BigInteger k = str2bval(key.toString());
 
-			String nps = "" + numPartitions;
-			BigInteger seg = ceil.divide(new BigInteger(nps)) ;
+			BigInteger parts = new BigInteger("" + numPartitions);
+			BigInteger seg = ceil.divide(parts) ;
 			
 			for(int i = 0; i < numPartitions; i++) {
 				// BigInteger div = floo + (seg * (i + 1));
 				
-				String is = "" + (i + 1);
-				BigInteger div = seg.multiply(new BigInteger(is));
+				BigInteger bigi = new BigInteger("" + (i + 1));
+				BigInteger div = seg.multiply(bigi);
 				
-				if(k.compareTo(div) <= 0) {
-					return ceil.intValue();
-					// return i;
+				if(k.compareTo(div) < 0) {
+					return i;
 				}
 			}
 			

@@ -140,7 +140,7 @@ public class Lab4Exp2 {
 
 		// Converts a string into a byte value
 		private static Integer str2bval(String s) {
-			String res;
+			String res = "";
 			
 			byte[] k = s.getBytes();
 
@@ -167,6 +167,10 @@ public class Lab4Exp2 {
 					return i;
 				}
 			}
+			
+			// Should never happen
+			return -1;
+		}
 	}
 	
 	public static class Map_One extends Mapper<LongWritable, Text, Text, Text> {

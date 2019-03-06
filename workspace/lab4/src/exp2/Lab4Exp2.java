@@ -147,7 +147,7 @@ public class Lab4Exp2 {
 			for(Byte b : k)
 				res += b.intValue();
 			
-			return Integer.parseInt(res);
+			return (new BigInteger(res)).intValue();
 		}
 		
 		// TODO

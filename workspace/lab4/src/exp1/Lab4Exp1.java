@@ -120,11 +120,10 @@ public class Lab4Exp1 {
 		// Configure TotalOrderPartitioner -- TODO?
 		job_one.setPartitionerClass(TotalOrderPartitioner.class);
 		
-		InputSampler.Sampler<Text, Text> sampler = new InputSampler.IntervalSampler<Text, Text>(reduce_tasks);
+		InputSampler.Sampler<LongWritable, Text> sampler = new InputSampler.IntervalSampler<LongWritable, Text>(reduce_tasks, reduce_tasks-1);
 		InputSampler.writePartitionFile(job_one, sampler);
 		
 		TotalOrderPartitioner.setPartitionFile(job_one.getConfiguration(), new Path(parts));
-		
 		
 		job_one.waitForCompletion(true);
 		
@@ -134,9 +133,9 @@ public class Lab4Exp1 {
 
 	/* == Round 1 == */
 	
-	public static class Map_One extends Mapper<Text, Text, Text, Text> {
+	public static class Map_One extends Mapper<LongWritable, Text, Text, Text> {
 
-		public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
+		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
 
 			String[] fields = line.split("\\s+");

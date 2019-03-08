@@ -122,12 +122,11 @@ public class Lab4Exp1 {
 		FileOutputFormat.setOutputPath(job_one, new Path(temp));
 		
 		// Configure TotalOrderPartitioner -- TODO?
-		job_one.setPartitionerClass(TotalOrderPartitioner.class);
 		
-		InputSampler.Sampler<LongWritable, Text> sampler = new InputSampler.IntervalSampler<LongWritable, Text>(reduce_tasks, reduce_tasks-1);
+		
+		InputSampler.Sampler<Text, Text> sampler = new InputSampler.IntervalSampler<Text, Text>(reduce_tasks, reduce_tasks-1);
 		InputSampler.writePartitionFile(job_one, sampler);
 		
-		TotalOrderPartitioner.setPartitionFile(job_one.getConfiguration(), new Path(parts));
 		
 		job_one.waitForCompletion(true);
 		
@@ -153,7 +152,12 @@ public class Lab4Exp1 {
 		// The output of previous job set as input of the next
 		FileInputFormat.addInputPath(job_two, new Path(parts));
 		FileOutputFormat.setOutputPath(job_two, new Path(output));
+		
+		// Set up partitioner
+		job_two.setPartitionerClass(TotalOrderPartitioner.class);
 
+		TotalOrderPartitioner.setPartitionFile(job_two.getConfiguration(), new Path(parts));
+		
 		// Run the job
 		job_two.waitForCompletion(true);
 

@@ -56,14 +56,18 @@ import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileAsTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.mapreduce.lib.partition.InputSampler;
 import org.apache.hadoop.mapreduce.lib.partition.TotalOrderPartitioner;
@@ -78,7 +82,7 @@ public class Lab4Exp1 {
 		String prefix = "/user/" + user + "/" + lab + "/" + exp;
 
 		String input = "/cpre419/input-50m"; 
-		// String temp = prefix + "/temp";
+		String temp = prefix + "/temp";
 		String output = prefix + "/output";
 		String parts = prefix + "/parts";
 
@@ -112,10 +116,10 @@ public class Lab4Exp1 {
 		job_one.setReducerClass(Reduce_One.class);
 
 		job_one.setInputFormatClass(TextInputFormat.class);
-		job_one.setOutputFormatClass(TextOutputFormat.class);
+		job_one.setOutputFormatClass(SequenceFileOutputFormat.class);
 
 		FileInputFormat.addInputPath(job_one, new Path(input));
-		FileOutputFormat.setOutputPath(job_one, new Path(output));
+		FileOutputFormat.setOutputPath(job_one, new Path(temp));
 		
 		// Configure TotalOrderPartitioner -- TODO?
 		job_one.setPartitionerClass(TotalOrderPartitioner.class);
@@ -127,7 +131,31 @@ public class Lab4Exp1 {
 		
 		job_one.waitForCompletion(true);
 		
-		// TOP for this job
+		/* == Round 2 == */
+		
+		Job job_two = Job.getInstance(conf, "Lab4 Program Round Two");
+		job_two.setJarByClass(Lab4Exp1.class);
+		job_two.setNumReduceTasks(reduce_tasks);
+
+		// Should be match with the output datatype of mapper and reducer
+		job_two.setMapOutputKeyClass(Text.class);
+		job_two.setMapOutputValueClass(DoubleWritable.class);
+
+		job_two.setOutputKeyClass(Text.class);
+		job_two.setOutputValueClass(NullWritable.class);
+
+		job_two.setMapperClass(Map_Two.class);
+		job_two.setReducerClass(Reduce_Two.class);
+
+		job_two.setInputFormatClass(SequenceFileAsTextInputFormat.class);
+		job_two.setOutputFormatClass(TextOutputFormat.class);
+		
+		// The output of previous job set as input of the next
+		FileInputFormat.addInputPath(job_two, new Path(parts));
+		FileOutputFormat.setOutputPath(job_two, new Path(output));
+
+		// Run the job
+		job_two.waitForCompletion(true);
 
 	}
 
@@ -147,6 +175,30 @@ public class Lab4Exp1 {
 	} 
 
 	public static class Reduce_One extends Reducer<Text, Text, Text, NullWritable> {
+	    
+		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+			for(Text v : values) {
+				context.write(v, NullWritable.get());
+			}
+		}
+	}
+	
+	/* == Round 2 == */
+	
+	public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
+
+		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+			String line = value.toString();
+
+			String[] fields = line.split("\\s+");
+			
+			Text ourKey = new Text(fields[0]);
+			
+			context.write(ourKey, value);
+		} 
+	} 
+
+	public static class Reduce_Two extends Reducer<Text, Text, Text, NullWritable> {
 	    
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			for(Text v : values) {

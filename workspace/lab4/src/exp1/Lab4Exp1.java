@@ -110,7 +110,7 @@ public class Lab4Exp1 {
 		job_one.setMapOutputValueClass(Text.class);
 
 		job_one.setOutputKeyClass(Text.class);
-		job_one.setOutputValueClass(NullWritable.class);
+		job_one.setOutputValueClass(Text.class);
 
 		job_one.setMapperClass(Map_One.class);
 		job_one.setReducerClass(Reduce_One.class);
@@ -134,7 +134,7 @@ public class Lab4Exp1 {
 		job_two.setMapOutputValueClass(Text.class);
 
 		job_two.setOutputKeyClass(Text.class);
-		job_two.setOutputValueClass(NullWritable.class);
+		job_two.setOutputValueClass(Text.class);
 
 		job_two.setMapperClass(Map_Two.class);
 		job_two.setReducerClass(Reduce_Two.class);
@@ -173,11 +173,11 @@ public class Lab4Exp1 {
 		} 
 	} 
 
-	public static class Reduce_One extends Reducer<Text, Text, Text, NullWritable> {
+	public static class Reduce_One extends Reducer<Text, Text, Text, Text> {
 	    
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			for(Text v : values) {
-				context.write(v, NullWritable.get());
+				context.write(key, v);
 			}
 		}
 	}
@@ -197,11 +197,11 @@ public class Lab4Exp1 {
 		} 
 	} 
 
-	public static class Reduce_Two extends Reducer<Text, Text, Text, NullWritable> {
+	public static class Reduce_Two extends Reducer<Text, Text, Text, Text> {
 	    
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			for(Text v : values) {
-				context.write(v, NullWritable.get());
+				context.write(key, v);
 			}
 		}
 	}

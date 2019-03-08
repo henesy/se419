@@ -148,11 +148,10 @@ public class Lab4Exp1 {
 
 		// Configure TotalOrderPartitioner -- TODO?
 		job_two.setPartitionerClass(TotalOrderPartitioner.class);
+		TotalOrderPartitioner.setPartitionFile(job_two.getConfiguration(), new Path(parts));
 		
 		InputSampler.Sampler<Text, Text> sampler = new InputSampler.IntervalSampler<Text, Text>(reduce_tasks, reduce_tasks-1);
 		InputSampler.writePartitionFile(job_two, sampler);
-		
-		TotalOrderPartitioner.setPartitionFile(job_two.getConfiguration(), new Path(parts));
 		
 		// Run the job
 		job_two.waitForCompletion(true);

@@ -161,9 +161,9 @@ public class Lab4Exp1 {
 
 	/* == Round 1 == */
 	
-	public static class Map_One extends Mapper<Text, Text, Text, Text> {
+	public static class Map_One extends Mapper<LongWritable, Text, Text, Text> {
 
-		public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
+		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
 
 			String[] fields = line.split("\\s+");
@@ -185,9 +185,9 @@ public class Lab4Exp1 {
 	
 	/* == Round 2 == */
 	
-	public static class Map_Two extends Mapper<LongWritable, Text, Text, Text> {
+	public static class Map_Two extends Mapper<Text, Text, Text, Text> {
 
-		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+		public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
 
 			String[] fields = line.split("\\s+");

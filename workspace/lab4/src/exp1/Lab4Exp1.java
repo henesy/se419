@@ -139,7 +139,7 @@ public class Lab4Exp1 {
 
 		// Should be match with the output datatype of mapper and reducer
 		job_two.setMapOutputKeyClass(Text.class);
-		job_two.setMapOutputValueClass(DoubleWritable.class);
+		job_two.setMapOutputValueClass(Text.class);
 
 		job_two.setOutputKeyClass(Text.class);
 		job_two.setOutputValueClass(NullWritable.class);
@@ -161,9 +161,9 @@ public class Lab4Exp1 {
 
 	/* == Round 1 == */
 	
-	public static class Map_One extends Mapper<LongWritable, Text, Text, Text> {
+	public static class Map_One extends Mapper<Text, Text, Text, Text> {
 
-		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+		public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
 
 			String[] fields = line.split("\\s+");

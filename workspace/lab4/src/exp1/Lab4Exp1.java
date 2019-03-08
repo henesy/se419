@@ -150,7 +150,7 @@ public class Lab4Exp1 {
 		job_two.setPartitionerClass(TotalOrderPartitioner.class);
 		TotalOrderPartitioner.setPartitionFile(job_two.getConfiguration(), new Path(parts));
 		
-		InputSampler.Sampler<Text, Text> sampler = new InputSampler.IntervalSampler<Text, Text>(reduce_tasks, reduce_tasks-1);
+		InputSampler.Sampler<Text, Text> sampler = new InputSampler.RandomSampler<>(0.01, reduce_tasks);
 		InputSampler.writePartitionFile(job_two, sampler);
 		
 		// Run the job

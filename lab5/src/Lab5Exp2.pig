@@ -1,0 +1,9 @@
+-- /cpre419/network_trace.txt
+-- 10:20:00.000020 IP 244.131.189.196.22379 > 245.184.172.199.80: tcp 0
+-- TIME "IP" SRCIP.PORT ">" DESTIP.PORT PROTO SEQ
+-- Need to trim .PORT off
+-- Interested in SRCIP
+-- if (PROTO != "tcp")
+-- 	   prune
+-- SUM SRCIP occurances
+-- SORT

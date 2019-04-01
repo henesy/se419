@@ -9,7 +9,24 @@
 -- SORT
 -- basically
 -- https://github.com/alanfgates/programmingpig/blob/master/examples/ch2/average_dividend.pig
-data_ = load '/cpre419/gaz_tracts_national.txt' as (STATE, GEOID, POP10, HU10, ALAND, AWATER, ALAND_SQMI, AWATER_SQMI, INTPLANT, INTPTLONG);
-grouped = group data_ by STATE; 
-sum = foreach grouped GENERATE GROUP, SUM(data_.ALAND_SQMI);
-store sum into 'sumd_sqmi';
+-- 2019-04-01 16:53:25,245 [main] ERROR org.apache.pig.tools.grunt.Grunt 
+-- ERROR 1025: <file Lab5Exp1.pig, line 16, column 31> Invalid field projection. 
+-- Projected field [GROUP] does not exist in schema: group:bytearray,data_:bag{:tuple(
+-- STATE:bytearray,GEOID:bytearray,POP10:bytearray,HU10:bytearray,ALAND:bytearray,
+-- AWATER:bytearray,ALAND_SQMI:bytearray,AWATER_SQMI:bytearray,INTPLANT:bytearray,INTPTLONG:bytearray)}.
+
+-- I guess it did not like me either excluding the typing or the fact they
+-- were uppercase? Really not sure. Nop[e, just typing.
+
+-- data_ = load '/home/nlosby/CPRE.419/labs/lab5/input/gaz.txt' USING PigStorage('\t') AS (STATE, GEOID, POP10, HU10, ALAND, AWATER, ALAND_SQMI, AWATER_SQMI, INTPLANT, INTPTLONG);
+data_ = load '../input/gaz.txt' AS (STATE:chararray, GEOID:chararray, POP10:int, HU10:int, ALAND:long, AWATER:long, ALAND_SQMI:long, AWATER_SQMI:long, INTPLANT:long, INTPTLONG:long);
+
+grouped = GROUP data_ BY STATE; 
+
+tot = FOREACH grouped GENERATE group, SUM(data_.ALAND) AS sum;
+
+ordered = ORDER tot BY sum DESC;
+
+head = LIMIT ordered 10;
+
+STORE head INTO '/home/nlosby/sumd_sqmi';

@@ -61,7 +61,7 @@ public class Lab7Exp1 {
 		JavaPairRDD<String, String> repstar = entries.mapToPair(
 			s ->
 				// new Tuple2<Integer, String>(Integer.parseInt(s.split(",")[12]), s.split(",")[0])
-			new Tuple2<String, String>(s.split(",")[12], s.split(",")[0])
+			new Tuple2<String, String>(s.split(",")[0], s.split(",")[12])
 		);
 		
 		// repstar.saveAsTextFile(outpath);
@@ -116,9 +116,9 @@ public class Lab7Exp1 {
 		
 		// stardd.saveAsTextFile(outpath);
 		
-		JavaPairRDD<String, String> langrepstar = replang.union(repstar);
+		JavaPairRDD<String, Tuple2<String, String>> langrepstar = replang.join(repstar);
 		
-		langrepstar.saveAsTextFile(outpath);
+		//langrepstar.saveAsTextFile(outpath);
 		
 		/*
 		// Make <lang, <repo, star>> of repositories
@@ -134,21 +134,10 @@ public class Lab7Exp1 {
 		
 		
 		// Get max star for a lang
-		/*
 		JavaPairRDD<String, Tuple2<String, String>> maxlangrepstar = langrepstar.reduceByKey(
 				(v1, v2) -> {
 					long a = Long.parseLong(v1._2);
 					long b = Long.parseLong(v2._2);
-					if(a > b)
-						return v1;
-					return v2;
-				}
-		);
-		*/
-		JavaPairRDD<String, String> maxlangrepstar = langrepstar.reduceByKey(
-				(v1, v2) -> {
-					long a = Long.parseLong(v1);
-					long b = Long.parseLong(v2);
 					if(a > b)
 						return v1;
 					return v2;
@@ -166,10 +155,10 @@ public class Lab7Exp1 {
 					s += f._1 + " ";
 					
 					// Repo name
-					s += f._2 + " ";
+					s += f._2()._1 + " ";
 					
 					// Nstars
-					s += f._2;
+					s += f._2()._2;
 					
 					return s;
 				}
@@ -187,7 +176,7 @@ public class Lab7Exp1 {
 			e.printStackTrace();
 		}
 		*/
-		//output.saveAsTextFile(outpath);
+		output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

@@ -66,8 +66,6 @@ public class Lab7Exp2 {
 
 
         Graph<String, String> graph = Graph.fromEdges(edgeRDD.rdd(), "",StorageLevel.MEMORY_ONLY(), StorageLevel.MEMORY_ONLY(), stringTag, stringTag);
-
-        //graph.vertices().toJavaRDD().saveAsTextFile("./output");
         
         // find the cycles now at a depth of three
         RDD<Tuple2<Object,Object>> triangles = TriangleCount.run(graph, stringTag, stringTag).vertices();

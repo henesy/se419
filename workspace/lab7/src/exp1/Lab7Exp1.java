@@ -75,6 +75,8 @@ public class Lab7Exp1 {
 				return 0;
 			}
 		);
+		
+		srepstar.saveAsTextFile(outpath);
 				
 		// -- Calculate number of repos / language by counting repo's per language in langrep
 		
@@ -160,7 +162,7 @@ public class Lab7Exp1 {
 			e.printStackTrace();
 		}
 		*/
-		output.saveAsTextFile(outpath);
+		// output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

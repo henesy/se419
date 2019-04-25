@@ -2,8 +2,10 @@ package exp1;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -32,56 +34,45 @@ public class Lab7Exp1 {
 		// == Process
 		JavaRDD<String> entries = lines.flatMap(
 			// Split on whitespace to get x,y,z style blocks
-			new FlatMapFunction<String, String>() {
-				@Override
-				public Iterator<String> call(String s) {
-					return Arrays.asList(s.split("\\s+")).iterator();
-				}
-			}
+			s ->
+				Arrays.asList(s.split("\\s+")).iterator()
 		);
 		
 		// NOTE: Names are unique as they are a ACCOUNT/REPONAME union
 		
 		// langrep	= Split into pairs of <Language, Repo>
 		JavaPairRDD<String, String> langrep = entries.mapToPair(
-			new PairFunction<String, String, String>() {
-				@Override
-				public Tuple2<String, String> call(String s) {
-					return new Tuple2<String, String>(s.split(",")[1], s.split(",")[0]);
-				}
-			}
+			s ->
+				new Tuple2<String, String>(s.split(",")[1], s.split(",")[0])
 		);
 		
 		// repstar	= Split into pairs of <Stars, Repo>
 		JavaPairRDD<Integer, String> repstar = entries.mapToPair(
-			new PairFunction<String, Integer, String>() {
-				@Override
-				public Tuple2<Integer, String> call(String s) {
-					return new Tuple2<Integer, String>(Integer.parseInt(s.split(",")[12]), s.split(",")[0]);
-				}
-			}
+			s ->
+				new Tuple2<Integer, String>(Integer.parseInt(s.split(",")[12]), s.split(",")[0])
 		);
 
 		// Sort repstar by Stars
 		
 		JavaPairRDD<Integer, String> srepstar = repstar.sortByKey(
-			new Comparator<Integer>() {
-			
-				// Sort by largest at the beginning
-				@Override
-				public int compare(Integer arg0, Integer arg1) {
-					if(arg0 > arg1)
-						return -1;
-					if(arg0 < arg1)
-						return 1;
-					return 0;
-				}
+			(arg0, arg1) -> {
+				if(arg0 > arg1)
+					return -1;
+				if(arg0 < arg1)
+					return 1;
+				return 0;
 			}
 		);
+				
+		// -- Calculate number of repos / language by counting repo's per language in langrep
 		
-		output = srepstar.rdd();
+		// Initialize a table of languages and counts starting at 0
+		JavaPairRDD<String, Integer> counts = langrep.keys().mapToPair(
+			s -> 
+				new Tuple2<String, Integer>(s, langrep.lookup(s).size())
+		);
 		
-		// Calculate number of repos / language by counting repo's per language in langrep
+		counts.saveAsTextFile(outpath);		
 		
 		// TODO -- calculate star list per language (keeping repo name)
 		
@@ -92,7 +83,7 @@ public class Lab7Exp1 {
 		// Output format: <lang> <n-repos> <repo-name> <n-stars>
 
 		// == Emit
-		output.saveAsTextFile(outpath);
+		// output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

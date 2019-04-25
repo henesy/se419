@@ -118,6 +118,8 @@ public class Lab7Exp1 {
 		
 		JavaPairRDD<String, Tuple2<String, String>> langrepstar = replang.join(repstar);
 		
+		langrepstar.saveAsTextFile(outpath);
+		
 		/*
 		// Make <lang, <repo, star>> of repositories
 		JavaPairRDD<String, Tuple2<String, Integer>> langrepstar = stardd.mapToPair(
@@ -174,7 +176,7 @@ public class Lab7Exp1 {
 			e.printStackTrace();
 		}
 		*/
-		output.saveAsTextFile(outpath);
+		//output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

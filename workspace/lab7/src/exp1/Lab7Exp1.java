@@ -62,7 +62,7 @@ public class Lab7Exp1 {
 			new Tuple2<Integer, String>((int) Long.parseLong(s.split(",")[12]), s.split(",")[0])
 		);
 		
-		// repstar.saveAsTextFile(outpath);
+		repstar.saveAsTextFile(outpath);
 
 		// Sort repstar by Stars
 		
@@ -76,7 +76,7 @@ public class Lab7Exp1 {
 			}
 		);
 		
-		srepstar.saveAsTextFile(outpath);
+		// srepstar.saveAsTextFile(outpath);
 				
 		// -- Calculate number of repos / language by counting repo's per language in langrep
 		

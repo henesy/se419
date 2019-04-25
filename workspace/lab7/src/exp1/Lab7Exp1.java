@@ -95,7 +95,7 @@ public class Lab7Exp1 {
 			}
 		);
 		
-		// counts.saveAsTextFile(outpath);		
+		counts.saveAsTextFile(outpath);		
 		
 		// -- Calculate top repo per language by star count
 		

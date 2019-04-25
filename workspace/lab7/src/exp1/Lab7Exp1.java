@@ -164,7 +164,7 @@ public class Lab7Exp1 {
 			e.printStackTrace();
 		}
 		*/
-		// output.saveAsTextFile(outpath);
+		output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

@@ -32,7 +32,7 @@ public class Lab7Exp2 {
         ClassTag<String> stringTag = scala.reflect.ClassTag$.MODULE$.apply(String.class);
         
         JavaRDD<String> lines = context.textFile(patentspath);
-		
+        
 		// open the file, go through each line and append an edge
 		
 		// == Process
@@ -51,23 +51,20 @@ public class Lab7Exp2 {
 			new PairFunction<String, String, String>() {
 				@Override
 				public Tuple2<String, String> call(String s) {
-					graphEdges.add(new Edge<String>(Long.parseLong(s.split("\\s+")[0]), 
-							Long.parseLong(s.split("\\s+")[1]), String.valueOf(++counter)));
+					graphEdges.add(new Edge<String>(Long.parseLong(s.split("\t")[0]), 
+							Long.parseLong(s.split("\t")[1]), String.valueOf(++counter)));
 					return new Tuple2<String, String>(s.split("\\s+")[0], s.split("\\s+")[1]);
 				}
 			}
 		);
-		
-		//fullEdges.foreach(System.out::println);
-
 
         JavaRDD<Edge<String>> edgeRDD = context.parallelize(graphEdges);
 
 
         Graph<String, String> graph = Graph.fromEdges(edgeRDD.rdd(), "",StorageLevel.MEMORY_ONLY(), StorageLevel.MEMORY_ONLY(), stringTag, stringTag);
 
+        graph.vertices().toJavaRDD().saveAsTextFile("./output");
         
-
         graph.vertices().toJavaRDD().collect().forEach(System.out::println);
 		
 	}

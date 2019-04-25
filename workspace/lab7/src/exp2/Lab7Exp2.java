@@ -59,6 +59,8 @@ public class Lab7Exp2 {
 				}
 			}
 		);
+		
+		fullEdges.foreach(System.out::println);
 
 
         JavaRDD<Edge<String>> edgeRDD = context.parallelize(graphEdges);

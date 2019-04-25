@@ -21,7 +21,7 @@ public class Lab7Exp1 {
 	public static void main(String[] args) {
 		String ghpath	= "./github.csv";
 		String outpath	= "./output-lab7exp1.txt";
-		JavaPairRDD<Integer, String> output = null;	// TODO -- Stub
+		JavaPairRDD<String, Integer> output = null;	// TODO -- Stub
 
 		// == Setup
 		SparkConf sparkConf = new SparkConf().setAppName("Lab7Exp1 in Spark").setMaster("local[*]");
@@ -78,8 +78,7 @@ public class Lab7Exp1 {
 			}
 		);
 		
-		// temp
-		output = srepstar; 
+		srepstar.saveAsTextFile(outpath);
 		
 		// Calculate number of repos / language by counting repo's per language in langrep
 		
@@ -92,7 +91,7 @@ public class Lab7Exp1 {
 		// Output format: <lang> <n-repos> <repo-name> <n-stars>
 
 		// == Emit
-		output.saveAsTextFile(outpath);
+		// output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

@@ -19,6 +19,8 @@ import scala.Tuple2;
 import scala.reflect.ClassTag;
 
 public class Lab7Exp2 {
+	
+	private static List<Edge<String>> graphEdges = new ArrayList<>();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -29,9 +31,6 @@ public class Lab7Exp2 {
         ClassTag<String> stringTag = scala.reflect.ClassTag$.MODULE$.apply(String.class);
         
         JavaRDD<String> lines = context.textFile(patentspath);
-
-		
-		List<Edge<String>> graphEdges = new ArrayList<>();
 		
 		// open the file, go through each line and append an edge
 		

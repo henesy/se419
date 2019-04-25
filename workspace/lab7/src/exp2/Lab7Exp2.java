@@ -59,7 +59,7 @@ public class Lab7Exp2 {
 		
 		fullEdges.foreach(
 			s -> 
-				graphEdges.add(new Edge<String>(Long.parseLong(s._1), Long.parseLong(s._2), String.valueOf(++counter)))
+				graphEdges.add(new Edge<String>(Long.parseLong(s._1), Long.parseLong(s._2), ""))
 		);
 
         JavaRDD<Edge<String>> edgeRDD = context.parallelize(graphEdges);

@@ -13,5 +13,5 @@ clean:
 	#hdfs dfs -rm -r /user/$USER/$(LAB)/$(PACKAGE)/output /user/$USER/$(LAB)/$(PACKAGE)/temp
 
 run:
-	spark-submit --class $(PACKAGE).$(TARG) $(TARG).jar
+	spark-submit --conf spark.timeout 10000000 --class $(PACKAGE).$(TARG) $(TARG).jar
 

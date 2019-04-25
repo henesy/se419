@@ -4,7 +4,7 @@ LAB=lab7
 USER=nlosby
 
 all:
-	javac -source 1.8 -target 1.8 -classpath .:/home/blurbdust/school/se419/sparkjars/spark-core_2.11-2.4.1.jar:/home/blurbdust/school/se419/sparkjars/scala-library-2.11.12.jar $(PACKAGE)/*.java
+	javac -source 1.8 -target 1.8 -classpath .:/home/blurbdust/school/se419/sparkjars/spark-core_2.11-2.4.1.jar:/home/blurbdust/school/se419/sparkjars/scala-library-2.11.12.jar:/home/blurbdust/school/se419/sparkjars/spark-graphx_2.12-2.4.2.jar $(PACKAGE)/*.java
 	jar -cvf $(TARG).jar $(PACKAGE)/*.class
 
 clean:

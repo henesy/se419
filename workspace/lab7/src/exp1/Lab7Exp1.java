@@ -146,7 +146,7 @@ public class Lab7Exp1 {
 		// Output format: <lang> <n-repos> <repo-name> <n-stars>
 
 		// == Emit
-		
+		/*
 		try {
 			RandomAccessFile out = new RandomAccessFile("./fuckers.txt", "rw");
 			output.foreach(s -> out.writeUTF(s + "\n"));
@@ -154,8 +154,8 @@ public class Lab7Exp1 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//output.saveAsTextFile(outpath);
+		*/
+		output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

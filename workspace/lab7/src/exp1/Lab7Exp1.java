@@ -22,6 +22,8 @@ import org.apache.spark.rdd.RDD;
 import scala.Tuple2;
 
 public class Lab7Exp1 {
+	
+	private static JavaPairRDD<String, String> replang;
 
 	@SuppressWarnings("serial")
 	public static void main(String[] args) {
@@ -50,7 +52,7 @@ public class Lab7Exp1 {
 		);
 		
 		// langrep	= Split into pairs of <Language, Repo>
-		JavaPairRDD<String, String> replang = entries.mapToPair(
+		replang = entries.mapToPair(
 			s ->
 				new Tuple2<String, String>(s.split(",")[0], s.split(",")[1])
 		);
@@ -144,7 +146,7 @@ public class Lab7Exp1 {
 					s += f._1 + " ";
 					
 					// Repo name
-					s += f._2()._1;
+					s += f._2()._1 + " ";
 					
 					// Nstars
 					s += f._2()._2;

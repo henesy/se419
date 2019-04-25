@@ -62,10 +62,11 @@ public class Lab7Exp1 {
 			new Tuple2<Integer, String>((int) Long.parseLong(s.split(",")[12]), s.split(",")[0])
 		);
 		
-		repstar.saveAsTextFile(outpath);
+		// repstar.saveAsTextFile(outpath);
 
 		// Sort repstar by Stars
 		
+		/*
 		JavaPairRDD<Integer, String> srepstar = repstar.sortByKey(
 			(arg0, arg1) -> {
 				if(arg0 > arg1)
@@ -75,6 +76,7 @@ public class Lab7Exp1 {
 				return 0;
 			}
 		);
+		*/
 		
 		// srepstar.saveAsTextFile(outpath);
 				
@@ -105,7 +107,7 @@ public class Lab7Exp1 {
 		// -- Calculate top repo per language by star count
 		
 		// Make <repo, star> into tuple2
-		JavaRDD<Tuple2<String, Integer>> stardd = srepstar.map(
+		JavaRDD<Tuple2<String, Integer>> stardd = repstar.map(
 				f -> 
 					new Tuple2<String, Integer>(f._2, f._1)
 		);

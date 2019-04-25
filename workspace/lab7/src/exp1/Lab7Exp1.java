@@ -12,6 +12,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.rdd.RDD;
 
 import scala.Tuple2;
 
@@ -20,8 +21,8 @@ public class Lab7Exp1 {
 	@SuppressWarnings("serial")
 	public static void main(String[] args) {
 		String ghpath	= "./github.csv";
-		String outpath	= "./output-lab7exp1.txt";
-		JavaPairRDD<String, Integer> output = null;	// TODO -- Stub
+		String outpath	= "./output-lab7exp1";
+		RDD<Tuple2<Integer, String>> output = null;	// TODO -- Stub
 
 		// == Setup
 		SparkConf sparkConf = new SparkConf().setAppName("Lab7Exp1 in Spark").setMaster("local[*]");
@@ -78,7 +79,7 @@ public class Lab7Exp1 {
 			}
 		);
 		
-		srepstar.saveAsTextFile(outpath);
+		output = srepstar.rdd();
 		
 		// Calculate number of repos / language by counting repo's per language in langrep
 		
@@ -91,7 +92,7 @@ public class Lab7Exp1 {
 		// Output format: <lang> <n-repos> <repo-name> <n-stars>
 
 		// == Emit
-		// output.saveAsTextFile(outpath);
+		output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

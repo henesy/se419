@@ -106,7 +106,8 @@ public class Lab7Exp1 {
 		JavaPairRDD<String, Tuple2<String, Integer>> langrepstar = stardd.mapToPair(
 			f -> {
 				// TODO -- find language of repo name
-				String lang = replang.lookup(f._1()).get(0);
+				//String lang = replang.lookup(f._1()).get(0);
+				String lang = "duckles";
 				return new Tuple2<String, Tuple2<String, Integer>>(lang, f);
 			}
 		);
@@ -143,7 +144,7 @@ public class Lab7Exp1 {
 		// Output format: <lang> <n-repos> <repo-name> <n-stars>
 
 		// == Emit
-		output.rdd().saveAsTextFile(outpath);
+		output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

@@ -24,7 +24,7 @@ public class Lab7Exp1 {
 	public static void main(String[] args) {
 		String ghpath	= "./github.csv";
 		String outpath	= "./output-lab7exp1";
-		RDD<Tuple2<Integer, String>> output = null;	// TODO -- Stub
+		//RDD<Tuple2<Integer, String>> output = null;	// TODO -- Stub
 
 		// == Setup
 		SparkConf sparkConf = new SparkConf().setAppName("Lab7Exp1 in Spark").setMaster("local[*]");
@@ -120,14 +120,30 @@ public class Lab7Exp1 {
 				}
 		);
 		
-		maxlangrepstar.saveAsTextFile(outpath);
-		
 		// TODO -- Sort final rdd by number of repositories
 		
+		// Make serializable
+		JavaRDD<String> output = maxlangrepstar.map(
+				f -> {
+					String s = "";
+					
+					// Lang
+					s += f._1() + " ";
+					
+					// Repo name
+					s += f._2()._1();
+					
+					// Nstars
+					s += f._2()._2().toString();
+					
+					return s;
+				}
+		);
+				
 		// Output format: <lang> <n-repos> <repo-name> <n-stars>
 
 		// == Emit
-		// output.saveAsTextFile(outpath);
+		output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

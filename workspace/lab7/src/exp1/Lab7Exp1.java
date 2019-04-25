@@ -58,7 +58,8 @@ public class Lab7Exp1 {
 		// repstar	= Split into pairs of <Stars, Repo>
 		JavaPairRDD<Integer, String> repstar = entries.mapToPair(
 			s ->
-				new Tuple2<Integer, String>(Integer.parseInt(s.split(",")[12]), s.split(",")[0])
+				// new Tuple2<Integer, String>(Integer.parseInt(s.split(",")[12]), s.split(",")[0])
+			new Tuple2<Integer, String>(10, s.split(",")[0])
 		);
 		
 		repstar.saveAsTextFile(outpath);
@@ -104,7 +105,7 @@ public class Lab7Exp1 {
 		// Make <repo, star> into tuple2
 		JavaRDD<Tuple2<String, Integer>> stardd = srepstar.map(
 				f -> 
-					new Tuple2<String, Integer>(f._2(), f._1())
+					new Tuple2<String, Integer>(f._2, f._1)
 		);
 		
 		// stardd.saveAsTextFile(outpath);	

@@ -1,10 +1,10 @@
-TARG=Lab7Exp1
-PACKAGE=exp1
+TARG=Lab7Exp2
+PACKAGE=exp2
 LAB=lab7
-USER=seh
+USER=nlosby
 
 all:
-	javac -source 1.8 -target 1.8 -classpath .:/home/seh/se419/sparkjars/spark-core_2.11-2.4.1.jar:/home/seh/se419/sparkjars/scala-library-2.11.12.jar $(PACKAGE)/*.java
+	javac -source 1.8 -target 1.8 -classpath .:/home/blurbdust/school/se419/sparkjars/spark-core_2.11-2.4.1.jar:/home/blurbdust/school/se419/sparkjars/scala-library-2.11.12.jar $(PACKAGE)/*.java
 	jar -cvf $(TARG).jar $(PACKAGE)/*.class
 
 clean:

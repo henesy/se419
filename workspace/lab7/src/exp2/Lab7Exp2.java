@@ -21,6 +21,7 @@ import scala.reflect.ClassTag;
 public class Lab7Exp2 {
 	
 	private static List<Edge<String>> graphEdges = new ArrayList<>();
+	private static int counter = 0;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -45,15 +46,13 @@ public class Lab7Exp2 {
 			}
 		);
 		
-		int counter = 0;
-		
 		// edge	= Split into pairs of <X, Y>
 		JavaPairRDD<String, String> fullEdges = entries.mapToPair(
 			new PairFunction<String, String, String>() {
 				@Override
 				public Tuple2<String, String> call(String s) {
 					graphEdges.add(new Edge<String>(Long.parseLong(s.split("\\s+")[0]), 
-							Long.parseLong(s.split("\\s+")[1]), ""));
+							Long.parseLong(s.split("\\s+")[1]), String.valueOf(++counter)));
 					return new Tuple2<String, String>(s.split("\\s+")[0], s.split("\\s+")[1]);
 				}
 			}
@@ -67,6 +66,7 @@ public class Lab7Exp2 {
 
         Graph<String, String> graph = Graph.fromEdges(edgeRDD.rdd(), "",StorageLevel.MEMORY_ONLY(), StorageLevel.MEMORY_ONLY(), stringTag, stringTag);
 
+        
 
         graph.vertices().toJavaRDD().collect().forEach(System.out::println);
 		

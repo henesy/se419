@@ -22,7 +22,7 @@ public class Lab7Exp2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String patentspath	= "./patents.txt";
+		String patentspath	= "/home/blurbdust/school/CPRE.419/labs/lab3/labfiles";
 
 		SparkConf conf = new SparkConf().setMaster("local").setAppName("graph");
         JavaSparkContext context = new JavaSparkContext(conf);
@@ -60,7 +60,7 @@ public class Lab7Exp2 {
 			}
 		);
 		
-		fullEdges.foreach(System.out::println);
+		//fullEdges.foreach(System.out::println);
 
 
         JavaRDD<Edge<String>> edgeRDD = context.parallelize(graphEdges);

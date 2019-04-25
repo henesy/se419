@@ -10,6 +10,7 @@ all:
 clean:
 	rm $(PACKAGE)/*.class
 	rm *.jar
+	rm -rf output
 	#hdfs dfs -rm -r /user/$USER/$(LAB)/$(PACKAGE)/output /user/$USER/$(LAB)/$(PACKAGE)/temp
 
 run:

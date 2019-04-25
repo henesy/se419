@@ -60,6 +60,8 @@ public class Lab7Exp1 {
 			s ->
 				new Tuple2<Integer, String>(Integer.parseInt(s.split(",")[12]), s.split(",")[0])
 		);
+		
+		repstar.saveAsTextFile(outpath);
 
 		// Sort repstar by Stars
 		
@@ -105,7 +107,7 @@ public class Lab7Exp1 {
 					new Tuple2<String, Integer>(f._2(), f._1())
 		);
 		
-		stardd.saveAsTextFile(outpath);	
+		// stardd.saveAsTextFile(outpath);	
 		
 		// Make <lang, <repo, star>> of repositories
 		JavaPairRDD<String, Tuple2<String, Integer>> langrepstar = stardd.mapToPair(

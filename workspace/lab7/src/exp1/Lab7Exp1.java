@@ -23,7 +23,7 @@ import scala.Tuple2;
 
 public class Lab7Exp1 {
 	
-	private static JavaPairRDD<String, String> replang;
+	//private static JavaPairRDD<String, String> replang;
 
 	@SuppressWarnings("serial")
 	public static void main(String[] args) {
@@ -52,16 +52,16 @@ public class Lab7Exp1 {
 		);
 		
 		// langrep	= Split into pairs of <Language, Repo>
-		replang = entries.mapToPair(
+		JavaPairRDD<String, String> replang = entries.mapToPair(
 			s ->
 				new Tuple2<String, String>(s.split(",")[0], s.split(",")[1])
 		);
 		
 		// repstar	= Split into pairs of <Stars, Repo>
-		JavaPairRDD<Integer, String> repstar = entries.mapToPair(
+		JavaPairRDD<String, String> repstar = entries.mapToPair(
 			s ->
 				// new Tuple2<Integer, String>(Integer.parseInt(s.split(",")[12]), s.split(",")[0])
-			new Tuple2<Integer, String>((int) Long.parseLong(s.split(",")[12]), s.split(",")[0])
+			new Tuple2<String, String>(s.split(",")[12], s.split(",")[0])
 		);
 		
 		// repstar.saveAsTextFile(outpath);
@@ -109,13 +109,16 @@ public class Lab7Exp1 {
 		// -- Calculate top repo per language by star count
 		
 		// Make <repo, star> into tuple2
-		JavaRDD<Tuple2<String, Integer>> stardd = repstar.map(
+		JavaRDD<Tuple2<String, String>> stardd = repstar.map(
 				f -> 
-					new Tuple2<String, Integer>(f._2, f._1)
+					new Tuple2<String, String>(f._2, f._1)
 		);
 		
-		// stardd.saveAsTextFile(outpath);	
+		// stardd.saveAsTextFile(outpath);
 		
+		JavaPairRDD<String, Tuple2<String, String>> langrepstar = replang.join(repstar);
+		
+		/*
 		// Make <lang, <repo, star>> of repositories
 		JavaPairRDD<String, Tuple2<String, Integer>> langrepstar = stardd.mapToPair(
 			f -> {
@@ -125,11 +128,15 @@ public class Lab7Exp1 {
 				return new Tuple2<String, Tuple2<String, Integer>>(lang, f);
 			}
 		);
+		*/
+		
 		
 		// Get max star for a lang
-		JavaPairRDD<String, Tuple2<String, Integer>> maxlangrepstar = langrepstar.reduceByKey(
+		JavaPairRDD<String, Tuple2<String, String>> maxlangrepstar = langrepstar.reduceByKey(
 				(v1, v2) -> {
-					if(v1._2 > v2._2)
+					long a = Long.parseLong(v1._2);
+					long b = Long.parseLong(v2._2);
+					if(a > b)
 						return v1;
 					return v2;
 				}

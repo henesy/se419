@@ -62,7 +62,7 @@ public class Lab7Exp1 {
 			new Tuple2<Integer, String>((int) Long.parseLong(s.split(",")[12]), s.split(",")[0])
 		);
 		
-		repstar.saveAsTextFile(outpath);
+		// repstar.saveAsTextFile(outpath);
 
 		// Sort repstar by Stars
 		
@@ -160,7 +160,7 @@ public class Lab7Exp1 {
 			e.printStackTrace();
 		}
 		*/
-		//output.saveAsTextFile(outpath);
+		output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

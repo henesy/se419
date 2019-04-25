@@ -13,5 +13,5 @@ clean:
 	#hdfs dfs -rm -r /user/$USER/$(LAB)/$(PACKAGE)/output /user/$USER/$(LAB)/$(PACKAGE)/temp
 
 run:
-	spark-submit --conf spark.timeout=10000000 --conf spark.executor.memory=5g --conf spark.driver.memory=5g --class $(PACKAGE).$(TARG) $(TARG).jar
+	spark-submit --conf spark.timeout=10000000 --conf spark.executor.memory=20g --conf spark.driver.memory=20g --class $(PACKAGE).$(TARG) $(TARG).jar
 

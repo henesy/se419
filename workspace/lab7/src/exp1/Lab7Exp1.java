@@ -46,6 +46,12 @@ public class Lab7Exp1 {
 				new Tuple2<String, String>(s.split(",")[1], s.split(",")[0])
 		);
 		
+		// langrep	= Split into pairs of <Language, Repo>
+		JavaPairRDD<String, String> replang = entries.mapToPair(
+			s ->
+				new Tuple2<String, String>(s.split(",")[0], s.split(",")[1])
+		);
+		
 		// repstar	= Split into pairs of <Stars, Repo>
 		JavaPairRDD<Integer, String> repstar = entries.mapToPair(
 			s ->
@@ -73,6 +79,7 @@ public class Lab7Exp1 {
 				new Tuple2<String, Integer>(s, 1)
 		);
 		
+		// Group values into iterable set of values, countng the number of values
 		JavaPairRDD<String, Integer> counts = counts0.groupByKey().mapValues(
 			f -> {
 				int count = 0;
@@ -85,11 +92,35 @@ public class Lab7Exp1 {
 			}
 		);
 		
-		counts.saveAsTextFile(outpath);		
+		// counts.saveAsTextFile(outpath);		
 		
-		// TODO -- calculate star list per language (keeping repo name)
+		// -- Calculate top repo per language by star count
 		
-		// TODO -- join data into final rdd
+		// Make <repo, star> into tuple2
+		JavaRDD<Tuple2<String, Integer>> stardd = srepstar.map(
+				f -> 
+					new Tuple2<String, Integer>(f._2(), f._1())
+		);
+		
+		// Make <lang, <repo, star>> of repositories
+		JavaPairRDD<String, Tuple2<String, Integer>> langrepstar = stardd.mapToPair(
+			f -> {
+				// TODO -- find language of repo name
+				String lang = replang.lookup(f._1()).get(0);
+				return new Tuple2<String, Tuple2<String, Integer>>(lang, f);
+			}
+		);
+		
+		// Get max star for a lang
+		JavaPairRDD<String, Tuple2<String, Integer>> maxlangrepstar = langrepstar.reduceByKey(
+				(v1, v2) -> {
+					if(v1._2() > v2._2())
+						return v1;
+					return v2;
+				}
+		);
+		
+		maxlangrepstar.saveAsTextFile(outpath);
 		
 		// TODO -- Sort final rdd by number of repositories
 		

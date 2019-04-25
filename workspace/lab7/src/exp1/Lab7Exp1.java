@@ -143,7 +143,7 @@ public class Lab7Exp1 {
 		// Output format: <lang> <n-repos> <repo-name> <n-stars>
 
 		// == Emit
-		output.saveAsTextFile(outpath);
+		output.rdd().saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

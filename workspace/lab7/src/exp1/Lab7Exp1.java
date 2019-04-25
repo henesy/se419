@@ -67,7 +67,8 @@ public class Lab7Exp1 {
 		// -- Calculate number of repos / language by counting repo's per language in langrep
 		
 		// Initialize a table of languages and counts starting at 0
-		JavaPairRDD<String, Integer> counts = langrep.keys().mapToPair(
+		JavaRDD<String> langs = langrep.keys();
+		JavaPairRDD<String, Integer> counts = langs.mapToPair(
 			s -> 
 				new Tuple2<String, Integer>(s, langrep.lookup(s).size())
 		);

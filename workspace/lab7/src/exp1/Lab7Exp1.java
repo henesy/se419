@@ -95,7 +95,7 @@ public class Lab7Exp1 {
 			}
 		);
 		
-		counts.saveAsTextFile(outpath);		
+		// counts.saveAsTextFile(outpath);		
 		
 		// -- Calculate top repo per language by star count
 		
@@ -104,6 +104,8 @@ public class Lab7Exp1 {
 				f -> 
 					new Tuple2<String, Integer>(f._2(), f._1())
 		);
+		
+		stardd.saveAsTextFile(outpath);	
 		
 		// Make <lang, <repo, star>> of repositories
 		JavaPairRDD<String, Tuple2<String, Integer>> langrepstar = stardd.mapToPair(

@@ -26,7 +26,7 @@ public class Lab7Exp2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String patentspath	= "/home/blurbdust/school/CPRE.419/labs/lab3/labfiles";
+		String patentspath	= "/home/blurbdust/school/CPRE.419/labs/lab3/labfiles/patents.txt";
 
 		SparkConf conf = new SparkConf().setMaster("local").setAppName("graph");
         JavaSparkContext context = new JavaSparkContext(conf);

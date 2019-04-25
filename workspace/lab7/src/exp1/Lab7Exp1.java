@@ -77,8 +77,10 @@ public class Lab7Exp1 {
 			f -> {
 				int count = 0;
 				Iterator<Integer> iter = f.iterator();
-				while(iter.hasNext())
+				while(iter.hasNext()) {
 					count++;
+					iter.next();
+				}
 				return count;
 			}
 		);

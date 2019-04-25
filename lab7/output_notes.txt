@@ -1,0 +1,100 @@
+##### Displaying the total number of languages:
+
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | awk '{print $2}' | sort | uniq
+C
+C#
+C++
+Java
+PHP
+Python
+Ruby
+
+##### Top results per language:
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | sort -k3 -nr | head -n 50
+rails/rails Ruby 29825
+rogerwang/node-webkit C++ 27350
+nwjs/nw.js C++ 27350
+jekyll/jekyll Ruby 23960
+Atom/atom-shell C++ 23940
+zurb/foundation PHP 22636
+laravel/laravel PHP 21738
+jakubroztocil/httpie Python 21283
+mitsuhiko/flask Python 18632
+kennethreitz/requests Python 17708
+neovim/neovim C 17395
+gitlabhq/gitlabhq Ruby 17332
+antirez/redis C 16713
+elasticsearch/elasticsearch Java 15698
+elastic/elasticsearch Java 15698
+plataformatec/devise Ruby 14620
+rg3/youtube-dl Python 14459
+facebook/hhvm C++ 13329
+cantino/huginn Ruby 13198
+letsencrypt/lets-encrypt-preview Python 12510
+git/git C 11964
+ericdouglas/MIT-computer-science-and-engineering Python 11936
+nostra13/Android-Universal-Image-Loader Java 11864
+shadowsocks/shadowsocks Python 11849
+symfony/symfony PHP 11792
+bcit-ci/CodeIgniter PHP 11731
+mitchellh/vagrant Ruby 11303
+ReactiveX/RxJava Java 11241
+Netflix/RxJava Java 11241
+getlantern/lantern Java 11064
+diaspora/diaspora Ruby 10557
+iluwatar/java-design-patterns Java 10091
+square/retrofit Java 10050
+google/iosched Java 10036
+SamyPesse/How-to-Make-a-Computer-Operating-System C 10015
+Valloric/YouCompleteMe C++ 9989
+scikit-learn/scikit-learn C 9852
+bbatsov/ruby-style-guide Ruby 9776
+karan/Projects Python 9457
+imathis/octopress Ruby 9355
+dotnet/corefx C# 9176
+ruby/ruby Ruby 9173
+square/okhttp Java 9133
+jfeinstein10/SlidingMenu Java 8939
+square/picasso Java 8899
+Mantle/Mantle C# 8885
+nathanmarz/storm Java 8761
+php/php-src C 8674
+ipython/ipython Python 8635
+caskroom/homebrew-cask Ruby 8529
+
+##### So we can see the top for each language:
+
+neovim/neovim C 17395
+dotnet/corefx C# 9176
+rogerwang/node-webkit C++ 27350
+elasticsearch/elasticsearch Java 15698
+zurb/foundation PHP 22636
+jakubroztocil/httpie Python 21283
+rails/rails Ruby 29825
+
+##### The count of repos for each language:
+
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | grep 'C' | wc -l
+552541
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | grep 'C#' | wc -l
+116155
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | grep 'C++' | wc -l
+159831
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | grep 'Java' | wc -l
+462537
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | grep 'PHP' | wc -l
+274174
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | grep 'Python' | wc -l
+332116
+seh@r410:~/se419/workspace/lab7/src$ cat output-lab7exp1/* | grep 'Ruby' | wc -l
+363960
+
+##### The final output thesis:
+
+C 552541 neovim/neovim 17395
+Java 462537 elasticsearch/elasticsearch 15698
+Ruby 363960 rails/rails 29825
+Python 332116 jakubroztocil/httpie 21283
+PHP 274174 zurb/foundation 22636
+C++ 159831 rogerwang/node-webkit 27350
+C# 116155 dotnet/corefx 9176

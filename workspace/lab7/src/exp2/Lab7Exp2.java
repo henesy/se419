@@ -68,7 +68,7 @@ public class Lab7Exp2 {
 
         graph.vertices().toJavaRDD().saveAsTextFile("./output");
         
-        graph.vertices().toJavaRDD().collect().forEach(System.out::println);
+        
 		
 	}
 

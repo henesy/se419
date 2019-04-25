@@ -70,7 +70,8 @@ public class Lab7Exp1 {
 		JavaRDD<String> langs = langrep.keys();
 		JavaPairRDD<String, Integer> counts = langs.mapToPair(
 			s -> 
-				new Tuple2<String, Integer>(s, langrep.lookup(s).size())
+				new Tuple2<String, Integer>(s, 0)
+				//new Tuple2<String, Integer>(s, langrep.lookup(s).size())
 		);
 		
 		counts.saveAsTextFile(outpath);		

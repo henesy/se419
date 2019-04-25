@@ -51,11 +51,14 @@ public class Lab7Exp2 {
 			new PairFunction<String, String, String>() {
 				@Override
 				public Tuple2<String, String> call(String s) {
-					graphEdges.add(new Edge<String>(Long.parseLong(s.split("\t")[0]), 
-							Long.parseLong(s.split("\t")[1]), String.valueOf(++counter)));
 					return new Tuple2<String, String>(s.split("\\s+")[0], s.split("\\s+")[1]);
 				}
 			}
+		);
+		
+		fullEdges.foreach(
+			s -> 
+				graphEdges.add(new Edge<String>(Long.parseLong(s._1), Long.parseLong(s._2), String.valueOf(++counter)))
 		);
 
         JavaRDD<Edge<String>> edgeRDD = context.parallelize(graphEdges);

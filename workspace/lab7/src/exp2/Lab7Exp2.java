@@ -11,8 +11,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.PairFunction;
-import org.apache.spark.graphx.Edge;
-import org.apache.spark.graphx.Graph;
+import org.apache.spark.graphx.lib.TriangleCount;
+import org.apache.spark.rdd.RDD;
+import org.apache.spark.graphx.*;
 import org.apache.spark.storage.StorageLevel;
 
 import scala.Tuple2;
@@ -66,10 +67,15 @@ public class Lab7Exp2 {
 
         Graph<String, String> graph = Graph.fromEdges(edgeRDD.rdd(), "",StorageLevel.MEMORY_ONLY(), StorageLevel.MEMORY_ONLY(), stringTag, stringTag);
 
-        graph.vertices().toJavaRDD().saveAsTextFile("./output");
+        //graph.vertices().toJavaRDD().saveAsTextFile("./output");
         
+        // find the cycles now at a depth of three
+        RDD<Tuple2<Object,Object>> triangles = TriangleCount.run(graph, stringTag, stringTag).vertices();
         
-		
+        triangles.saveAsTextFile("./output");
+        
+        System.out.println("[Lab7Exp2] Triangle count: " + triangles.count());
+	
 	}
 
 }

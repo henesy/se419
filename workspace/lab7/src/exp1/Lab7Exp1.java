@@ -1,5 +1,8 @@
 package exp1;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -143,7 +146,16 @@ public class Lab7Exp1 {
 		// Output format: <lang> <n-repos> <repo-name> <n-stars>
 
 		// == Emit
-		output.saveAsTextFile(outpath);
+		
+		try {
+			RandomAccessFile out = new RandomAccessFile("./fuckers.txt", "w");
+			output.foreach(s -> out.writeUTF(s + "\n"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//output.saveAsTextFile(outpath);
 		context.stop();
 		context.close();
 		

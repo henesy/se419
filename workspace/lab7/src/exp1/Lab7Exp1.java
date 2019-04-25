@@ -117,7 +117,7 @@ public class Lab7Exp1 {
 		// Get max star for a lang
 		JavaPairRDD<String, Tuple2<String, Integer>> maxlangrepstar = langrepstar.reduceByKey(
 				(v1, v2) -> {
-					if(v1._2() > v2._2())
+					if(v1._2 > v2._2)
 						return v1;
 					return v2;
 				}

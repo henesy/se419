@@ -68,7 +68,7 @@ public class Lab7Exp1 {
 		
 		// Initialize a table of languages and counts starting at 0
 		JavaRDD<String> langs = langrep.keys();
-		JavaPairRDD<String, Integer> counts = langs.mapToPair(
+		JavaPairRDD<String, Integer> counts = langs.distinct().mapToPair(
 			s -> 
 				new Tuple2<String, Integer>(s, 0)
 				//new Tuple2<String, Integer>(s, langrep.lookup(s).size())

@@ -148,7 +148,7 @@ public class Lab7Exp1 {
 		// == Emit
 		
 		try {
-			RandomAccessFile out = new RandomAccessFile("./fuckers.txt", "w");
+			RandomAccessFile out = new RandomAccessFile("./fuckers.txt", "rw");
 			output.foreach(s -> out.writeUTF(s + "\n"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

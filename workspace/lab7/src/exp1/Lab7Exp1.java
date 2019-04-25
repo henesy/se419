@@ -68,10 +68,19 @@ public class Lab7Exp1 {
 		
 		// Initialize a table of languages and counts starting at 0
 		JavaRDD<String> langs = langrep.keys();
-		JavaPairRDD<String, Integer> counts = langs.distinct().mapToPair(
+		JavaPairRDD<String, Integer> counts0 = langs.mapToPair(
 			s -> 
-				new Tuple2<String, Integer>(s, 0)
-				//new Tuple2<String, Integer>(s, langrep.lookup(s).size())
+				new Tuple2<String, Integer>(s, 1)
+		);
+		
+		JavaPairRDD<String, Integer> counts = counts0.groupByKey().mapValues(
+			f -> {
+				int count = 0;
+				Iterator<Integer> iter = f.iterator();
+				while(iter.hasNext())
+					count++;
+				return count;
+			}
 		);
 		
 		counts.saveAsTextFile(outpath);		

@@ -59,7 +59,7 @@ public class Lab7Exp1 {
 		JavaPairRDD<Integer, String> repstar = entries.mapToPair(
 			s ->
 				// new Tuple2<Integer, String>(Integer.parseInt(s.split(",")[12]), s.split(",")[0])
-			new Tuple2<Integer, String>(10, s.split(",")[0])
+			new Tuple2<Integer, String>((int) Long.parseLong(s.split(",")[12]), s.split(",")[0])
 		);
 		
 		repstar.saveAsTextFile(outpath);
